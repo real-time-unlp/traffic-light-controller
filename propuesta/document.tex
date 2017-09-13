@@ -7,7 +7,7 @@
 %opening
 \title{Propuesta de proyecto
 		\\Sistemas de Tiempo Real 2017
-		\\{\Large Eje de giro controlado por PID}
+		\\{\Large Semáforos inteligentes}
 }
 \author{García, Agustín Manuel
 \\Romero, Ramiro
@@ -19,24 +19,15 @@
 
 \maketitle
 
-La idea es controlar el ángulo de giro de una barra conectada a un motor DC. El control es a lazo cerrado, en tiempo real, se monitorea la posición absoluta de la barra con un potenciómetro o preferentemente un encoder incremental. La barra tiene libertad de movimiento de manera que puede caer hacia los costados salvo que se aplique una acción de control. 
+La propuesta se basa en diseñar semáforos inteligentes capaces de detectar los autos que llegan a las intersecciones y, en función de eso, tomar una decisión de cuál es el que tiene prioridad de paso. Con el fin de añadir aún más funcionalidades, los semáforos se equipan con sensores de radiofrecuencia que permiten detectar ambulancias,  policías y bomberos para darles prioridad de paso. Para ello los autos con prioridad deben tener el emisor RF adecuado. Por último, los peatones pueden apretar un botón, ubicado en cada semáforo que les permite generar un pedido de cruce.
 
 \section*{Materiales}
 \begin{itemize}
-	\item Motor DC de 18V.
-	\item Potenciómetro/Encoder incremental de suficiente precisión
-	\item La barra a controlar
-	\item Varias partes plásticas que acoplen las cosas
-	\item Fuentes (a determinar)
-	\item Arduino Mega
-	\item Fuente de 18V de al menos 2A (a determinar)
-	\item Driver  L298 para puente H
-	\item Regulador de tensión (a determinar, dependería del micro y fuente)
-	\item Componentes pasivos y diodos.
+	\item Arduino UNO o Mega.
+	\item Red Can-BUS
+	\item Sensores ultrasónicos
+	\item Pulsadores
+	\item Sensores RF
 \end{itemize}
-
-\section*{}
-Estos materiales son una primera aproximación. De aprobarse este proyecto se armaría una lista más detallada con los modelos y precios de los elementos. 
-
 
 \end{document}
