@@ -1,14 +1,13 @@
 % !TeX spellcheck = es_ES
 \documentclass[a4paper,11pt]{article}
 \usepackage[spanish]{babel}
-\usepackage[left=2cm,right=2cm]{geometry}
+\usepackage[left=3cm,right=3cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{times}
 %opening
-\title{Propuesta de proyecto
-		\\Sistemas de Tiempo Real 2017
-		\\{\Large Semáforos inteligentes}
-}
+\title{Semáforos inteligentes
+		\\{\large Propuesta de proyecto\\ Sistemas de tiempo real 2017}}
+
 \author{García, Agustín Manuel
 \\Romero Dapozo, Ramiro
 \\Ternouski, Sebastian Nahuel}
@@ -20,17 +19,23 @@
 \maketitle
 
 La propuesta se basa en diseñar semáforos inteligentes capaces de detectar los autos que llegan a las intersecciones y, en función de eso, tomar una decisión de cuál es el que tiene prioridad de paso.
-Con el fin de añadir aún más funcionalidades, los semáforos se equipan con sensores de radiofrecuencia que permiten detectar ambulancias,  policías y bomberos para darles prioridad de paso.
-Para ello los autos con prioridad deben tener el emisor RF adecuado. 
+
+Adicionalmente, los semáforos se equipan con sensores de radiofrecuencia que permiten detectar ambulancias, policías y bomberos para darles mayor prioridad de paso.
+Para ello los vehículos con mayor prioridad deben tener un emisor de radiofrecuencia para anunciar su cercanía a un semáforo inteligente. 
+
+Cada semáforo tiene un microcontrolador que lo gobierna y se comunican entre sí mediante algún protocolo robusto y apto para sistemas de tiempo real como Can BUS.
+
+La toma de decisiones se hace de forma conjunta: cada semáforo tiene información de los demás, y se comparan los resultados del análisis que haga cada semaforo, tomándose como definitiva la estrategia que haya sido elegida por la mayoría de ellos.
+
 Por último, los peatones pueden apretar un botón, ubicado en cada semáforo que les permite generar un pedido de cruce.
 
-\section*{Materiales}
+\section*{Lista tentativa de materiales}
 \begin{itemize}
-	\item Arduino UNO o Mega
-	\item Red Can-BUS
+	\item Arduino Uno o Mega
+	\item Adaptadores de red CAN Bus y HW relacionado
 	\item Sensores ultrasónicos
 	\item Pulsadores
-	\item Sensores RF
+	\item Transmisores/receptores RF
 \end{itemize}
 
 \end{document}
