@@ -18,24 +18,21 @@
 
 \maketitle
 
-La propuesta se basa en diseñar semáforos inteligentes capaces de detectar los autos que llegan a las intersecciones y, en función de eso, tomar una decisión de cuál es el que tiene prioridad de paso.
+La propuesta se basa en diseñar semáforos inteligentes capaces de detectar los autos que llegan a las intersecciones y, en función de eso, tomar una decisión de cuál es el que tiene prioridad de paso. Adicionalmente, los semáforos se equipan con pulsadores, que los peatones pueden apretar, para generar un pedido de cruce en esa esquina.
 
-Adicionalmente, los semáforos se equipan con sensores de radiofrecuencia que permiten detectar ambulancias, policías y bomberos para darles mayor prioridad de paso.
-Para ello los vehículos con mayor prioridad deben tener un emisor de radiofrecuencia para anunciar su cercanía a un semáforo inteligente. 
+La información obtenida de los sensores se envía a un microcontrolador central que actualiza sus datos, en tiempo real, para conocer en todo momento el estado actual del tráfico y poder establecer prioridades de paso (incluidos los pedidos de los peatones).
 
-Cada semáforo tiene un microcontrolador que lo gobierna y se comunican entre sí mediante algún protocolo robusto y apto para sistemas de tiempo real como Can BUS.
+El microcontrolador cuenta con un sistema de tiempo real (freeRTOS) en donde se modela cada semáforo como una tarea y, en función de los datos que sensa, actualiza sus prioridades para decidir cuál de ellas es la que va a ejecutar en determinado momento. La decisión la realiza el scheduler que se integra con el sistema.
 
-La toma de decisiones se hace de forma conjunta: cada semáforo tiene información de los demás, y se comparan los resultados del análisis que haga cada semaforo, tomándose como definitiva la estrategia que haya sido elegida por la mayoría de ellos.
-
-Por último, los peatones pueden apretar un botón, ubicado en cada semáforo que les permite generar un pedido de cruce.
+Con el producto consolidado se determinará, a modo de conclusión, si freeRTOS responde con las especificaciones de tiempo correctamente o si en cambio, no es el indicado para realizar este tipo de tareas.
 
 \section*{Lista tentativa de materiales}
 \begin{itemize}
-	\item Arduino Uno o Mega
-	\item Adaptadores de red CAN Bus y HW relacionado
+	\item Arduino Uno
 	\item Sensores ultrasónicos
+	\item Sensores infrarrojos.
 	\item Pulsadores
-	\item Transmisores/receptores RF
+	\item Leds
 \end{itemize}
 
 \end{document}
