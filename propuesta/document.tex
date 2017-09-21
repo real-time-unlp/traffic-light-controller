@@ -9,7 +9,7 @@
 		\\{\large Propuesta de proyecto\\ Sistemas de tiempo real 2017}}
 
 \author{García, Agustín Manuel
-\\Romero Dapozo, Ramiro
+\\Romero Dapozo, José Ramiro
 \\Ternouski, Sebastian Nahuel}
 
 \date{}
@@ -20,19 +20,18 @@
 
 La propuesta se basa en diseñar semáforos inteligentes capaces de detectar los autos que llegan a las intersecciones y, en función de eso, tomar una decisión de cuál es el que tiene prioridad de paso. Adicionalmente, los semáforos se equipan con pulsadores, que los peatones pueden apretar, para generar un pedido de cruce en esa esquina.
 
-La información obtenida de los sensores se envía a un microcontrolador central que actualiza sus datos, en tiempo real, para conocer en todo momento el estado actual del tráfico y poder establecer prioridades de paso (incluidos los pedidos de los peatones).
+La información obtenida de los sensores se envía a un microcontrolador central que actualiza sus datos, en tiempo real, para conocer en todo momento el estado actual del tráfico y poder establecer prioridades de paso (incluídos los pedidos de los peatones).
 
-El microcontrolador cuenta con un sistema de tiempo real (freeRTOS) en donde se modela cada semáforo como una tarea y, en función de los datos que sensa, actualiza sus prioridades para decidir cuál de ellas es la que va a ejecutar en determinado momento. La decisión la realiza el scheduler que se integra con el sistema.
+El microcontrolador cuenta con un sistema operativo de tiempo real (FreeRTOS) en donde se modela cada semáforo como una tarea y, en función de los datos que sensa, actualiza sus prioridades para decidir cuál de ellas es la que va a ejecutar en determinado momento. La decisión la realiza el scheduler provisto por el sistema operativo.
 
-Con el producto consolidado se determinará, a modo de conclusión, si freeRTOS responde con las especificaciones de tiempo correctamente o si en cambio, no es el indicado para realizar este tipo de tareas.
+Con el sistema consolidado se determinará, a modo de conclusión, si FreeRTOS responde con las especificaciones de tiempo correctamente o si, en cambio, no es el indicado para realizar este tipo de tareas.
 
 \section*{Lista tentativa de materiales}
 \begin{itemize}
 	\item Arduino Uno
-	\item Sensores ultrasónicos
 	\item Sensores infrarrojos.
 	\item Pulsadores
-	\item Leds
+	\item LEDs
 \end{itemize}
 
 \end{document}
