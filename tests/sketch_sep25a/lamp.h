@@ -5,6 +5,7 @@
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 #include "led.h"
+#include "config.h"
 
 class Lamp
 {

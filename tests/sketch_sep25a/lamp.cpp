@@ -1,7 +1,5 @@
 #include "lamp.h"
 
-#define YELLOW_LED_MS_TIME		1000
-
 Lamp::Lamp(const Led *led, const unsigned char id) : led(led), id(id), run_sem(xSemaphoreCreateBinary()), halt_sem(xSemaphoreCreateBinary())
 {
     if (run_sem == NULL || halt_sem == NULL)
@@ -19,7 +17,7 @@ void Lamp::task(void *args)
             if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE)
             {
                 led->yellow();
-                vTaskDelay(YELLOW_LED_MS_TIME / portTICK_PERIOD_MS);
+                vTaskDelay(LAMP_YELLOW_LED_MS_TIME / portTICK_PERIOD_MS);
             }
             else
                 Serial.println("No se adquirio el semaforo stop");
