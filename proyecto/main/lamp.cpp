@@ -1,6 +1,11 @@
 #include "lamp.h"
+#include "system.h"
 
-Lamp::Lamp(const Led *led, const unsigned char id) : led(led), id(id), run_sem(xSemaphoreCreateBinary()), halt_sem(xSemaphoreCreateBinary())
+Lamp::Lamp(const Led *led, const unsigned char id)
+: led(led),
+  id(id),
+  run_sem(xSemaphoreCreateBinary()),
+  halt_sem(xSemaphoreCreateBinary())
 {
 	if (run_sem == NULL || halt_sem == NULL)
 		Serial.println("Algun semaforo en Lamp no se ha iniciado correctamente");
@@ -17,7 +22,7 @@ void Lamp::task(void *args)
 			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE)
 			{
 				led->yellow();
-				vTaskDelay(LAMP_YELLOW_LED_MS_TIME / portTICK_PERIOD_MS);
+				vTaskDelay(System::YELLOW_DURATION / portTICK_PERIOD_MS);
 			}
 			else
 				Serial.println("No se adquirio el semaforo 'halt_sem'");

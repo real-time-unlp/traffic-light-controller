@@ -14,7 +14,6 @@ public:
 	Sensor(const unsigned char sensor_pin, const unsigned char default_value);
 	void scan();
 	unsigned char get_current_state();
-	~Sensor();
 };
 
 #endif

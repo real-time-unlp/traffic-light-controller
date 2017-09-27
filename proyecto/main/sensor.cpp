@@ -21,8 +21,3 @@ unsigned char Sensor::get_current_state()
 {
 	return current_state;
 }
-
-Sensor::~Sensor()
-{
-	//TODO no se que hacer
-}
