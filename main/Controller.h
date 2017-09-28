@@ -5,6 +5,9 @@
 #include <semphr.h>
 #include "CircularList.h"
 #include "System.h"
+#include "Lamp.h"
+#include "Sensor.h"
+#include "Array.h"
 
 class Controller {
 private:
@@ -14,7 +17,7 @@ private:
 public:
 	Controller();
 	void task(void *args);
-	void receiveNewReadings();
+	void receive(const Array<Sensor, System::MAX_LAMPS> &sensors);
 };
 
 #endif

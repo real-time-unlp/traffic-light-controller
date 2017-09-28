@@ -1,8 +1,9 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
-Sensor::Sensor(uint8_t sensorPin, bool initialValue)
-: sensorPin(sensorPin),
+Sensor::Sensor(Lamp &lamp, uint8_t sensorPin, bool initialValue)
+: mLamp(lamp),
+  sensorPin(sensorPin),
   previousValue(initialValue),
   currentValue(initialValue)
 {
@@ -19,4 +20,9 @@ void Sensor::scan()
 bool Sensor::value() const
 {
 	return currentValue;
+}
+
+Lamp &Sensor::lamp() const
+{
+	return mLamp;
 }

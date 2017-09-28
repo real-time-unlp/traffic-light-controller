@@ -21,7 +21,7 @@ public:
 			Serial.write("Array: acceso fuera de rango.");
 		return elements[index];
 	}
-	uint8_t size const()
+	uint8_t size() const
 	{
 		return mSize;
 	}
