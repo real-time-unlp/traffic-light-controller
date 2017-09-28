@@ -1,5 +1,6 @@
-#include "lamp.h"
-#include "system.h"
+#include "Lamp.h"
+#include "System.h"
+#include <Arduino.h>
 
 Lamp::Lamp(LED &led, uint8_t id)
 : led(led),
@@ -19,7 +20,7 @@ void Lamp::task(void *args)
 			led.set(LED::State::Green);
 			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE) {
 				led.set(LED::State::Yellow);
-				vTaskDelay(System::YELLOW_DURATION / portTICK_PERIOD_MS);
+				delay(System::YELLOW_DURATION);
 			} else {
 				Serial.println("No se adquirio el semaforo 'halt_sem'");
 			}

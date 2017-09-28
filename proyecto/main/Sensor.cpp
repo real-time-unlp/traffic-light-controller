@@ -1,4 +1,5 @@
-#include "sensor.h"
+#include "Sensor.h"
+#include <Arduino.h>
 
 Sensor::Sensor(uint8_t sensorPin, bool initialValue)
 : sensorPin(sensorPin),

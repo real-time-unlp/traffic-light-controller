@@ -1,6 +1,6 @@
 #include <Arduino_FreeRTOS.h>
-#include "led.h"
-#include "lamp.h"
+#include "Led.h"
+#include "Lamp.h"
 
 LED led(1,2,3);
 Lamp lamp(led, 1);

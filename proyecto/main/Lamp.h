@@ -1,7 +1,6 @@
 #ifndef LAMP_H
 #define LAMP_H
 
-#include <Arduino.h>
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 #include "LED.h"

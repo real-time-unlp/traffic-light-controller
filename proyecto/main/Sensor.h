@@ -1,7 +1,6 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-#include <Arduino.h>
 #include <stdint.h>
 
 class Sensor
