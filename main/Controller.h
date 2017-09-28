@@ -6,8 +6,7 @@
 #include "CircularList.h"
 #include "System.h"
 
-class Controller
-{
+class Controller {
 private:
 	CircularList<Lamp, System::MAX_LAMPS> active, inactive;
 	const volatile SemaphoreHandle_t newReadings;

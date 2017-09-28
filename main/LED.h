@@ -3,19 +3,18 @@
 
 #include <stdint.h>
 
-class LED
-{
-	public:
-		enum class State {Red, Yellow, Green, Off};
-		LED(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin);
-		void set(State newState);
-		State state();
-		
-	private:
-		const uint8_t redPin;
-		const uint8_t yellowPin;
-		const uint8_t greenPin;
-		State mState;
+class LED {
+public:
+	enum class State {Red, Yellow, Green, Off};
+	LED(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin);
+	void set(State newState);
+	State state();
+	
+private:
+	const uint8_t redPin;
+	const uint8_t yellowPin;
+	const uint8_t greenPin;
+	State mState;
 };
 
 #endif

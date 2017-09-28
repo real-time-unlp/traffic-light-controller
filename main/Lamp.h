@@ -6,21 +6,20 @@
 #include "LED.h"
 #include <stdint.h>
 
-class Lamp
-{
-	private:
-		const uint8_t mId;
-		const volatile SemaphoreHandle_t run_sem;
-		const volatile SemaphoreHandle_t halt_sem;
-		LED led;
+class Lamp {
+private:
+	const uint8_t mId;
+	const volatile SemaphoreHandle_t run_sem;
+	const volatile SemaphoreHandle_t halt_sem;
+	LED led;
 
-	public:
-		Lamp(LED &led, uint8_t id);
-		void task(void *args);
-		void go();
-		void halt();
-		LED::State ledState();
-		uint8_t id();
+public:
+	Lamp(LED &led, uint8_t id);
+	void task(void *args);
+	void go();
+	void halt();
+	LED::State ledState();
+	uint8_t id();
 };
 
 #endif

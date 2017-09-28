@@ -2,8 +2,7 @@
 #define CIRCULAR_LIST_H
 
 template <class T, unsigned Capacity>
-class CircularList
-{
+class CircularList {
 private:
 	T *items[Capacity];
 	unsigned index;

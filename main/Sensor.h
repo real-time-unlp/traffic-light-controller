@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-class Sensor
-{
+class Sensor {
 private:
 	const uint8_t sensorPin;
 	bool previousValue;

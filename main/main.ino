@@ -8,7 +8,8 @@ Lamp lamp(led, 1);
 void lamp_func(void* args);
 void other_func(void *args);
 
-void setup() {
+void setup()
+{
 	Serial.begin(9600);
 	Serial.println("Todo en orden");
 	
@@ -18,14 +19,17 @@ void setup() {
 	vTaskStartScheduler();
 }
 
-void loop() {
+void loop()
+{
 }
 
-void lamp_func(void *args) {
+void lamp_func(void *args)
+{
 	lamp.task(args);
 }
 
-void other_func(void *args) {
+void other_func(void *args)
+{
 	while(1) {
 		lamp.go();
 		Serial.println("Hola desde la otra funcion");

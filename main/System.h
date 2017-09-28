@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-class System
-{
+class System {
 public:
 	static constexpr uint8_t MAX_LAMPS = 4;
 	static constexpr uint8_t YELLOW_DURATION = 3;
