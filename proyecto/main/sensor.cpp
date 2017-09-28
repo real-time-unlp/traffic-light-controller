@@ -1,20 +1,21 @@
 #include "sensor.h"
 
-Sensor::Sensor(const unsigned char sensor_pin, const unsigned char default_value) : sensor_pin(sensor_pin)
+Sensor::Sensor(uint8_t sensorPin, bool initialValue)
+: sensorPin(sensorPin),
+  previousValue(initialValue),
+  currentValue(initialValue)
 {
-	pinMode(sensor_pin, INPUT);
-	this->current_state = default_value;
-	this->previous_state = default_value;
+	pinMode(sensorPin, INPUT);
 }
 
 void Sensor::scan()
 {
-	current_state = digitalRead(sensor_pin);
-	if (current_state != previous_state)
-		previous_state = current_state;
+	currentValue = digitalRead(sensorPin);
+	if (currentValue != previousValue)
+		previousValue = currentValue;
 }
 
-unsigned char Sensor::get_current_state()
+bool Sensor::value() const
 {
-	return current_state;
+	return currentValue;
 }

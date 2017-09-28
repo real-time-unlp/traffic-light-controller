@@ -3,19 +3,20 @@
 
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
-#include "circular_list.h"
+#include "CircularList.h"
+#include "System.h"
 
 class Controller
 {
 private:
-	CircularList<Lamp, 4> active, inactive;
-	const volatile SemaphoreHandle_t new_readings;
-	void wait_for_readings();
+	CircularList<Lamp, System::MAX_LAMPS> active, inactive;
+	const volatile SemaphoreHandle_t newReadings;
 
 public:
 	Controller();
 	void task(void *args);
-	void receive_new_readings(const circular_list actives, const circular_list disabled);
+	// TODO: mal nachdenken
+	void receiveNewReadings();
 };
 
 #endif

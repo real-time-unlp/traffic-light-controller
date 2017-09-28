@@ -1,9 +1,9 @@
 #include "lamp.h"
 #include "system.h"
 
-Lamp::Lamp(const Led *led, const unsigned char id)
+Lamp::Lamp(LED &led, uint8_t id)
 : led(led),
-  id(id),
+  mId(id),
   run_sem(xSemaphoreCreateBinary()),
   halt_sem(xSemaphoreCreateBinary())
 {
@@ -15,13 +15,13 @@ void Lamp::task(void *args)
 {
 	while (1)
 	{
-		led->red();
+		led.set(LED::State::Red);
 		if (xSemaphoreTake(run_sem, portMAX_DELAY) == pdTRUE)
 		{
-			led->green();
+			led.set(LED::State::Green);
 			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE)
 			{
-				led->yellow();
+				led.set(LED::State::Yellow);
 				vTaskDelay(System::YELLOW_DURATION / portTICK_PERIOD_MS);
 			}
 			else
@@ -32,7 +32,7 @@ void Lamp::task(void *args)
 	}
 }
 
-void Lamp::run()
+void Lamp::go()
 {
 	xSemaphoreGive(run_sem);
 }
@@ -42,17 +42,12 @@ void Lamp::halt()
 	xSemaphoreGive(halt_sem);
 }
 
-unsigned char Lamp::get_status()
+LED::State Lamp::ledState()
 {
-	return led->get_status();
+	return led.state();
 }
 
-unsigned char Lamp::get_id()
+uint8_t Lamp::id()
 {
-	return id;
-}
-
-Lamp::~Lamp()
-{
-	//TODO no se como se utiliza.
+	return mId;
 }

@@ -2,29 +2,21 @@
 #define LED_H
 
 #include <Arduino.h>
+#include <stdint.h>
 
-#define GREEN_STATUS    0
-#define YELLOW_STATUS   1
-#define RED_STATUS      2
-#define OFF_STATUS      3
-
-class Led
+class LED
 {
 	private:
-		const unsigned char green_pin;
-		const unsigned char yellow_pin;
-		const unsigned char red_pin;
-		unsigned char led_status;
+		const uint8_t redPin;
+		const uint8_t yellowPin;
+		const uint8_t greenPin;
 
 	public:
-		Led(const unsigned char green_pin, const unsigned char yellow_pin, const unsigned char red_pin);
-		void on();
-		void off();
-		void green();
-		void yellow();
-		void red();
-		unsigned char get_status();
-		~Led();
+		enum class State {Red, Yellow, Green, Off};
+		State mState;
+		LED(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin);
+		void set(State newState);
+		State state();
 };
 
 #endif

@@ -2,18 +2,19 @@
 #define SENSOR_H
 
 #include <Arduino.h>
+#include <stdint.h>
 
 class Sensor
 {
 private:
-	const unsigned char sensor_pin;
-	unsigned char previous_state;
-	unsigned char current_state;
+	const uint8_t sensorPin;
+	bool previousValue;
+	bool currentValue;
 
 public:
-	Sensor(const unsigned char sensor_pin, const unsigned char default_value);
+	Sensor(uint8_t sensorPin, bool initialValue);
 	void scan();
-	unsigned char get_current_state();
+	bool value() const;
 };
 
 #endif

@@ -4,24 +4,24 @@
 #include <Arduino.h>
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
-#include "led.h"
+#include "LED.h"
+#include <stdint.h>
 
 class Lamp
 {
 	private:
-		const unsigned char id;
+		const uint8_t mId;
 		const volatile SemaphoreHandle_t run_sem;
 		const volatile SemaphoreHandle_t halt_sem;
-		const Led* led;
+		LED led;
 
 	public:
-		Lamp(const Led* led, const unsigned char id);
+		Lamp(LED &led, uint8_t id);
 		void task(void *args);
-		void run();
+		void go();
 		void halt();
-		unsigned char get_status();
-		unsigned char get_id();
-		~Lamp();
+		LED::State ledState();
+		uint8_t id();
 };
 
 #endif
