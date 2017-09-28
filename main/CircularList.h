@@ -46,12 +46,15 @@ public:
 			return false;
 
 		bool equal = true;
-		for (unsigned i = 0; i < dimension; i++) {
-			if (items[i] != other.items[i]) {
-				equal = false;
-				break;
+		for (uint8_t i = 0; i < dimension && equal; i++) {
+			bool found = false;
+			for (uint8_t j = 0; j < dimension && !found; j++) {
+				if (items[i] == other.items[j])
+					found = true;
 			}
+			equal = found;
 		}
+		// Si |A| = |B| y  A está contenido en B --> A = B
 		return equal;
 	}
 
