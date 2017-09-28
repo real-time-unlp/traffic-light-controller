@@ -17,7 +17,7 @@ private:
 public:
 	Controller();
 	void task(void *args);
-	void receive(const Array<Sensor, System::MAX_LAMPS> &sensors);
+	void receive(Array<Sensor, System::MAX_LAMPS> &sensors);
 };
 
 #endif
