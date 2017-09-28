@@ -35,6 +35,11 @@ public:
 		return item;
 	}
 
+	T *current()
+	{
+		return items[index];
+	}
+
 	unsigned size() const
 	{
 		return dimension;

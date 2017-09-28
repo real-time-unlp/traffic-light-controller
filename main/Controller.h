@@ -11,6 +11,7 @@
 
 class Controller {
 private:
+	// TODO: serializar acceso a estas dos
 	CircularList<Lamp, System::MAX_LAMPS> active, inactive;
 	const volatile SemaphoreHandle_t newReadings;
 
