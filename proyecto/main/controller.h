@@ -15,7 +15,6 @@ private:
 public:
 	Controller();
 	void task(void *args);
-	// TODO: mal nachdenken
 	void receiveNewReadings();
 };
 

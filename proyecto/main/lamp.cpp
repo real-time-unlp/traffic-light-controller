@@ -13,22 +13,19 @@ Lamp::Lamp(LED &led, uint8_t id)
 
 void Lamp::task(void *args)
 {
-	while (1)
-	{
+	while (1) {
 		led.set(LED::State::Red);
-		if (xSemaphoreTake(run_sem, portMAX_DELAY) == pdTRUE)
-		{
+		if (xSemaphoreTake(run_sem, portMAX_DELAY) == pdTRUE) {
 			led.set(LED::State::Green);
-			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE)
-			{
+			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE) {
 				led.set(LED::State::Yellow);
 				vTaskDelay(System::YELLOW_DURATION / portTICK_PERIOD_MS);
-			}
-			else
+			} else {
 				Serial.println("No se adquirio el semaforo 'halt_sem'");
-		}
-		else
+			}
+		} else {
 			Serial.println("No se adquirio el semaforo 'run_sem'");
+		}
 	}
 }
 
