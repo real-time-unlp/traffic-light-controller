@@ -8,7 +8,7 @@
 
 class SensorMonitor {
 private:
-    Controller controller;
+	Controller controller;
 	Array<Sensor, System::MAX_LAMPS> sensors;
 
 public:

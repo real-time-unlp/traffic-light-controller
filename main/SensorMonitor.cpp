@@ -9,11 +9,11 @@ SensorMonitor::SensorMonitor(Controller &controller, Array<Sensor, System::MAX_L
 
 void SensorMonitor::task(void *args)
 {
-    while(1) {
-        for(int i = 0; i < sensors.size(); i++) {
-            sensors[i].scan();
-        }
-        controller.receive(sensors);
-        vTaskDelay(System::SENSOR_MONITOR_DURATION / portTICK_PERIOD_MS);
-    }
+	while(1) {
+		for(int i = 0; i < sensors.size(); i++) {
+			sensors[i].scan();
+		}
+		controller.receive(sensors);
+		vTaskDelay(System::SENSOR_MONITOR_DURATION / portTICK_PERIOD_MS);
+	}
 }
