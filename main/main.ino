@@ -22,11 +22,13 @@ Array<Lamp, System::MAX_LAMPS> lamps ({
 });
 
 Array<Sensor, System::MAX_LAMPS> sensors ({
-	Sensor(lamps[0], 0, false),
-	Sensor(lamps[1], 1, false),
-	Sensor(lamps[2], 2, false),
-	Sensor(lamps[3], 3, false)
+	Sensor(lamps[0], A0, HIGH),
+	Sensor(lamps[1], A1, HIGH),
+	Sensor(lamps[2], A2, HIGH),
+	Sensor(lamps[3], A3, HIGH)
 });
+
+const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};
 
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);
@@ -34,8 +36,6 @@ SensorMonitor sensorMonitor(controller, sensors);
 void lampTask(void *args);
 void controllerTask(void *args);
 void sensorMonitorTask(void *args);
-
-const uint8_t taskIndices[4] {0, 1, 2, 3};
 
 void setup()
 {
