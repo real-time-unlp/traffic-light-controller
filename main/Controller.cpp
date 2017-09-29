@@ -33,7 +33,7 @@ void Controller::task(void *args)
 
 			// Prendemos el primer activo
 			if (active.size() != 0)
-				active.next()->go();
+				active.current()->go();
 		}
 
 
