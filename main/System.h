@@ -9,6 +9,7 @@ public:
 	// En milisegundos
 	static constexpr uint16_t YELLOW_DURATION = 3000;
 	static constexpr uint16_t TURN_DURATION = 15000;
+	static constexpr uint16_t SENSOR_MONITOR_DURATION = 1000;
 };
 
 #endif
