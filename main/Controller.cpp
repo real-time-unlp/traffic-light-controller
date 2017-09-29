@@ -4,7 +4,8 @@
 #include "System.h"
 
 Controller::Controller()
-: newReadings(xSemaphoreCreateBinary())
+: newReadings(xSemaphoreCreateBinary()),
+  listsMutex(xSemaphoreCreateMutex())
 {
 }
 
@@ -35,7 +36,8 @@ void Controller::task(void *args)
 		while (xSemaphoreTake(newReadings, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE)
 		{
 			// No hubo un cambio de estado, sólo tenemos que ir cambiando de semáforo
-			if (active.size() != 0) {
+			// Solo alternar semáforos y hay mas de uno participando
+			if (active.size() > 1) {
 				active.next()->halt();
 				active.current()->go();
 			}
