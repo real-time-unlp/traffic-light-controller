@@ -32,7 +32,7 @@ Array<Sensor, System::MAX_LAMPS> sensors ({
 const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
 
 Array<LED, System::MAX_LAMPS> leds ({
-	LED(0,1,2),
+	LED(4, 3, 2),
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
@@ -73,7 +73,8 @@ void loop()
 void lampTask(void *args)
 {
 	uint8_t lampIndex = *((const uint8_t *) args);
-	Serial.println("Inicio de tarea Lamp " + lampIndex);
+	Serial.print("Inicio de la tarea Lamp ");
+	Serial.println(lampIndex);
 	lamps[lampIndex].task(args);
 }
 

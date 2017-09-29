@@ -68,6 +68,16 @@ public:
 		return !(*this == other);
 	}
 
+/*
+	void operator=(const volatile CircularList<T, Capacity> &other)
+	{
+		for(uint8_t i = 0; i < other.dimension; i++) {
+			items[i] = other.items[i];
+		}
+		index = other.index;
+		dimension = other.dimension;
+	}*/
+
 	void add(T *item)
 	{
 		if (dimension < Capacity)

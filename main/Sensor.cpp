@@ -20,7 +20,7 @@ void Sensor::scan()
 
 bool Sensor::value() const
 {
-	return currentValue;
+	return !currentValue;
 }
 
 Lamp &Sensor::lamp() const

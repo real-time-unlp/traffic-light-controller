@@ -14,8 +14,20 @@ void Controller::task(void *args)
 	// La tarea arranca ante la primera lectura
 	// Las listas están inicialmente vacias, asi que esto si o si pasa.
 	xSemaphoreTake(full, portMAX_DELAY);
-	active = newActive;
-	inactive = newInactive;
+	Serial.println("=======================");
+	Serial.println("Globales");
+	Serial.print("Active size = ");
+	Serial.println(this->newActive.size());
+	Serial.print("Inactive size = ");
+	Serial.println(this->newInactive.size());
+	active = this->newActive;
+	inactive = this->newInactive;
+	Serial.println("=======================");
+	Serial.println("Globales");
+	Serial.print("Active size = ");
+	Serial.println(this->active.size());
+	Serial.print("Inactive size = ");
+	Serial.println(this->inactive.size());
 	xSemaphoreGive(empty);
 	while (true) {
 		// Se busca un semáforo prendido dentro de los activos.
@@ -46,8 +58,20 @@ void Controller::task(void *args)
 			}
 		}
 
-		active = newActive;
-		inactive = newInactive;
+		Serial.println("=======================");
+		Serial.println("Globales");
+		Serial.print("Active size = ");
+		Serial.println(this->newActive.size());
+		Serial.print("Inactive size = ");
+		Serial.println(this->newInactive.size());
+		active = this->newActive;
+		inactive = this->newInactive;
+		Serial.println("=======================");
+		Serial.println("Globales");
+		Serial.print("Active size = ");
+		Serial.println(this->active.size());
+		Serial.print("Inactive size = ");
+		Serial.println(this->inactive.size());
 		xSemaphoreGive(empty);
 	}
 }
@@ -67,8 +91,20 @@ void Controller::receive(Array<Sensor, System::MAX_LAMPS> &sensors)
 	// Si cambiaron, las actualizamos y notificamos
 	if (this->newActive != newActive || this->newInactive != newInactive) {
 		xSemaphoreTake(empty, portMAX_DELAY);
+		Serial.println("=======================");
+		Serial.println("Locales");
+		Serial.print("Active size = ");
+		Serial.println(newActive.size());
+		Serial.print("Inactive size = ");
+		Serial.println(newInactive.size());
 		this->newActive = newActive;
 		this->newInactive = newInactive;
+		Serial.println("=======================");
+		Serial.println("Globales");
+		Serial.print("Active size = ");
+		Serial.println(this->newActive.size());
+		Serial.print("Inactive size = ");
+		Serial.println(this->newInactive.size());
 		xSemaphoreGive(full);
 	}
 }

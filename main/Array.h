@@ -7,7 +7,6 @@
 template<typename T, unsigned Capacity>
 class Array {
 	T elements[Capacity];
-	uint8_t mSize = 0;
 public:
 	Array(T elem[Capacity])
 	: elements(elem)
@@ -25,13 +24,13 @@ public:
 	Array &operator=(Array&&) = default;
 	T &operator[](uint8_t index)
 	{
-		if (index >= mSize)
+		if (index >= Capacity)
 			Serial.write("Array: acceso fuera de rango.");
 		return elements[index];
 	}
 	uint8_t size() const
 	{
-		return mSize;
+		return Capacity;
 	}
 };
 
