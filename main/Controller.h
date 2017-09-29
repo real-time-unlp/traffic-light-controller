@@ -11,10 +11,10 @@
 
 class Controller {
 private:
-	// TODO: serializar acceso a estas dos
-	CircularList<Lamp, System::MAX_LAMPS> active, inactive;
-	const volatile SemaphoreHandle_t newReadings;
-	const volatile SemaphoreHandle_t listsMutex;
+	CircularList<Lamp, System::MAX_LAMPS> active, inactive,
+					newActive, newInactive;
+	const volatile SemaphoreHandle_t full;
+	const volatile SemaphoreHandle_t empty;
 
 public:
 	Controller();

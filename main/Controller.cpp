@@ -4,8 +4,8 @@
 #include "System.h"
 
 Controller::Controller()
-: newReadings(xSemaphoreCreateBinary()),
-  listsMutex(xSemaphoreCreateMutex())
+: full(xSemaphoreCreateCounting(1, 0)),
+  empty(xSemaphoreCreateCounting(1, 1))
 {
 }
 
@@ -13,7 +13,10 @@ void Controller::task(void *args)
 {
 	// La tarea arranca ante la primera lectura
 	// Las listas están inicialmente vacias, asi que esto si o si pasa.
-	xSemaphoreTake(newReadings, portMAX_DELAY);
+	xSemaphoreTake(full, portMAX_DELAY);
+	active = newActive;
+	inactive = newInactive;
+	xSemaphoreGive(empty);
 	while (true) {
 		// Se busca un semáforo prendido dentro de los activos.
 		// Si se lo encuentra, nos quedamos con ese.
@@ -33,7 +36,8 @@ void Controller::task(void *args)
 				active.next()->go();
 		}
 
-		while (xSemaphoreTake(newReadings, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE)
+
+		while (xSemaphoreTake(full, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE)
 		{
 			// No hubo un cambio de estado, sólo tenemos que ir cambiando de semáforo
 			// Solo alternar semáforos y hay mas de uno participando
@@ -43,13 +47,15 @@ void Controller::task(void *args)
 			}
 		}
 
+		active = newActive;
+		inactive = newInactive;
+		xSemaphoreGive(empty);
 	}
 }
 
 void Controller::receive(Array<Sensor, System::MAX_LAMPS> &sensors)
 {
 	CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
-
 	// Armamos las listas a partir de los datos de los sensores
 	for (uint8_t i = 0; i < sensors.size(); i++) {
 		const auto &sensor = sensors[i];
@@ -60,10 +66,10 @@ void Controller::receive(Array<Sensor, System::MAX_LAMPS> &sensors)
 	}
 
 	// Si cambiaron, las actualizamos y notificamos
-	// TODO: concurrencia!
-	if (newActive != active || newInactive != inactive) {
-		active = newActive;
-		inactive = newInactive;
-		xSemaphoreGive(newReadings);
+	if (this->newActive != newActive || this->newInactive != newInactive) {
+		xSemaphoreTake(empty, portMAX_DELAY);
+		this->newActive = newActive;
+		this->newInactive = newInactive;
+		xSemaphoreGive(full);
 	}
 }
