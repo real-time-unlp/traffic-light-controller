@@ -5,6 +5,9 @@
 
 class System {
 public:
+	static constexpr uint8_t LAMP_PRIORITY = 2;
+	static constexpr uint8_t CONTROLLER_PRIORITY = 1;
+	static constexpr uint8_t SENSOR_MONITOR_PRIORITY = 1;
 	static constexpr uint8_t MAX_LAMPS = 4;
 	// En milisegundos
 	static constexpr uint16_t YELLOW_DURATION = 3000;

@@ -10,7 +10,7 @@ SensorMonitor::SensorMonitor(Controller &controller, Array<Sensor, System::MAX_L
 void SensorMonitor::task(void *args)
 {
 	while(1) {
-		for(int i = 0; i < sensors.size(); i++) {
+		for(uint8_t i = 0; i < sensors.size(); i++) {
 			sensors[i].scan();
 		}
 		controller.receive(sensors);

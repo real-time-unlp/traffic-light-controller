@@ -37,8 +37,7 @@ void Controller::task(void *args)
 		}
 
 
-		while (xSemaphoreTake(full, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE)
-		{
+		while (xSemaphoreTake(full, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE) {
 			// No hubo un cambio de estado, sólo tenemos que ir cambiando de semáforo
 			// Solo alternar semáforos y hay mas de uno participando
 			if (active.size() > 1) {
