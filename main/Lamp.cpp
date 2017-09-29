@@ -3,10 +3,10 @@
 #include <Arduino.h>
 
 Lamp::Lamp(LED &led, uint8_t id)
-: led(led),
-  mId(id),
+: mId(id),
   run_sem(xSemaphoreCreateBinary()),
-  halt_sem(xSemaphoreCreateBinary())
+  halt_sem(xSemaphoreCreateBinary()),
+  led(led)
 {
 	if (run_sem == NULL || halt_sem == NULL)
 		Serial.println("Algun semaforo en Lamp no se ha iniciado correctamente");
