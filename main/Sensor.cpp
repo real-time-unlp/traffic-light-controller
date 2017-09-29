@@ -1,9 +1,10 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
+// TODO: usar ADC
 Sensor::Sensor(Lamp &lamp, uint8_t sensorPin, bool initialValue)
-: mLamp(lamp),
-  sensorPin(sensorPin),
+: sensorPin(sensorPin),
+  mLamp(lamp),
   previousValue(initialValue),
   currentValue(initialValue)
 {

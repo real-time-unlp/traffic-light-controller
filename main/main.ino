@@ -22,11 +22,10 @@ Array<Lamp, System::MAX_LAMPS> lamps ({
 });
 
 Array<Sensor, System::MAX_LAMPS> sensors ({
-	// TODO: revisar pines
-	Sensor(lamps[0], 5, false),
-	Sensor(lamps[1], 6, false),
-	Sensor(lamps[2], 7, false),
-	Sensor(lamps[3], 8, false)
+	Sensor(lamps[0], 0, false),
+	Sensor(lamps[1], 1, false),
+	Sensor(lamps[2], 2, false),
+	Sensor(lamps[3], 3, false)
 });
 
 Controller controller;
