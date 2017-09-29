@@ -7,6 +7,7 @@
 #include "Array.h"
 #include "Sensor.h"
 
+/*
 Array<LED, System::MAX_LAMPS> leds ({
 	LED(0,1,2),
 	LED(3,4,5),
@@ -28,7 +29,21 @@ Array<Sensor, System::MAX_LAMPS> sensors ({
 	Sensor(lamps[3], A3, HIGH)
 });
 
-const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};
+const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
+
+Array<LED, System::MAX_LAMPS> leds ({
+	LED(0,1,2),
+});
+
+Array<Lamp, System::MAX_LAMPS> lamps ({
+	Lamp(leds[0], 0),
+});
+
+Array<Sensor, System::MAX_LAMPS> sensors ({
+	Sensor(lamps[0], A0, HIGH),
+});
+
+const uint8_t taskIndices[System::MAX_LAMPS] {0};
 
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);
@@ -43,7 +58,7 @@ void setup()
 	Serial.println("Inicio de Control de Tráfico");
 	
 	for(uint8_t i = 0; i < System::MAX_LAMPS; i++)
-		xTaskCreate(lampTask, "Lamp " + i, 128, (void*) (&taskIndices + 1), System::LAMP_PRIORITY, NULL);
+		xTaskCreate(lampTask, "Lamp " + i, 128, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);
 	
 	xTaskCreate(controllerTask, "Controller", 128, NULL, System::CONTROLLER_PRIORITY, NULL);
 	xTaskCreate(sensorMonitorTask, "Sensor Monitor", 128, NULL, System::SENSOR_MONITOR_PRIORITY, NULL);
@@ -57,7 +72,7 @@ void loop()
 
 void lampTask(void *args)
 {
-	uint8_t lampIndex = *((const uint8_t*) args);
+	uint8_t lampIndex = *((const uint8_t *) args);
 	Serial.println("Inicio de tarea Lamp " + lampIndex);
 	lamps[lampIndex].task(args);
 }
