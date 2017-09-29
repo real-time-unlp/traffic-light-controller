@@ -8,11 +8,11 @@
 
 class SensorMonitor {
 private:
-    Controller *controller;
-	CircularList<Lamp, System::MAX_LAMPS> active, inactive;
+    Controller controller;
+	Array<Sensor, System::MAX_LAMPS> sensors;
 
 public:
-	SensorMonitor(Controller *controller, Array<Sensor, System::MAX_LAMPS> &sensors);
+	SensorMonitor(Controller &controller, Array<Sensor, System::MAX_LAMPS> &sensors);
 	void task(void *args);
 };
 
