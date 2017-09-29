@@ -78,7 +78,7 @@ void Controller::task(void *args)
 
 void Controller::receive(Array<Sensor, System::MAX_LAMPS> &sensors)
 {
-	CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
+	volatile CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
 	// Armamos las listas a partir de los datos de los sensores
 	for (uint8_t i = 0; i < sensors.size(); i++) {
 		const auto &sensor = sensors[i];

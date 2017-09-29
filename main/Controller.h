@@ -11,7 +11,7 @@
 
 class Controller {
 private:
-	CircularList<Lamp, System::MAX_LAMPS> active, inactive,
+	volatile CircularList<Lamp, System::MAX_LAMPS> active, inactive,
 					newActive, newInactive;
 	const volatile SemaphoreHandle_t full;
 	const volatile SemaphoreHandle_t empty;

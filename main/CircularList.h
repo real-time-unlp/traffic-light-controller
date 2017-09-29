@@ -12,8 +12,17 @@ private:
 
 public:
 	CircularList() = default;
+	CircularList<T, Capacity> volatile &operator=(const volatile CircularList<T, Capacity> &other) volatile
+	{
+		this->index = other.index;
+		this->dimension = other.dimension;
+		for (uint8_t i = 0; i < dimension; i++) {
+			this->items[i] = other.items[i];
+		}
+		return *this;
+	};
 
-	T *next()
+	T *next() volatile
 	{
 		T *item = nullptr;
 
@@ -24,7 +33,7 @@ public:
 		return item;
 	}
 
-	T *prev()
+	T *prev() volatile
 	{
 		T *item = nullptr;
 
@@ -35,17 +44,17 @@ public:
 		return item;
 	}
 
-	T *current()
+	T *current() volatile
 	{
 		return items[index];
 	}
 
-	unsigned size() const
+	unsigned size() const volatile
 	{
 		return dimension;
 	};
 
-	bool operator==(const CircularList<T, Capacity> &other) const
+	bool operator==(const volatile CircularList<T, Capacity> &other) const volatile
 	{
 		if (size() != other.size())
 			return false;
@@ -63,28 +72,18 @@ public:
 		return equal;
 	}
 
-	bool operator!=(const CircularList<T, Capacity> &other) const
+	bool operator!=(const volatile CircularList<T, Capacity> &other) const volatile
 	{
 		return !(*this == other);
 	}
 
-/*
-	void operator=(const volatile CircularList<T, Capacity> &other)
-	{
-		for(uint8_t i = 0; i < other.dimension; i++) {
-			items[i] = other.items[i];
-		}
-		index = other.index;
-		dimension = other.dimension;
-	}*/
-
-	void add(T *item)
+	void add(T *item) volatile
 	{
 		if (dimension < Capacity)
 			items[dimension++] = item;
 	}
 
-	void clear()
+	void clear() volatile
 	{
 		dimension = 0;
 	}
