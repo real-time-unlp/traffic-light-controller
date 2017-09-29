@@ -32,15 +32,15 @@ Array<Sensor, System::MAX_LAMPS> sensors ({
 const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
 
 Array<LED, System::MAX_LAMPS> leds ({
-	LED(0,1,2),
+	LED(0,1,2)
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
-	Lamp(leds[0], 0),
+	Lamp(leds[0], 0)
 });
 
 Array<Sensor, System::MAX_LAMPS> sensors ({
-	Sensor(lamps[0], A0, HIGH),
+	Sensor(lamps[0], A0, HIGH)
 });
 
 const uint8_t taskIndices[System::MAX_LAMPS] {0};
