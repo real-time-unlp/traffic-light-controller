@@ -13,6 +13,7 @@ public:
 	static constexpr uint16_t YELLOW_DURATION = 500;
 	static constexpr uint16_t TURN_DURATION = 1000;
 	static constexpr uint16_t SENSOR_MONITOR_DURATION = 500;
+	static constexpr uint16_t TRANSITION_TO_ANOTHER_LAMP = 1000;
 };
 
 #endif

@@ -28,8 +28,10 @@ void Controller::task(void *args)
 		if (!activeFound) {
 			// Apagamos el que esté en verde y no deba estarlo
 			for (uint8_t i = 0; i < inactive.size(); i++, inactive.next())
-				if (inactive.current()->ledState() == LED::State::Green)
+				if (inactive.current()->ledState() == LED::State::Green) {
 					inactive.current()->halt();
+					delay(System::TRANSITION_TO_ANOTHER_LAMP);
+				}
 
 			// Prendemos el primer activo
 			if (active.size() != 0)
@@ -42,7 +44,7 @@ void Controller::task(void *args)
 			// Solo alternar semáforos y hay mas de uno participando
 			if (active.size() > 1) {
 				active.next()->halt();
-				delay(1000);
+				delay(System::TRANSITION_TO_ANOTHER_LAMP);
 				active.current()->go();
 			}
 		}
