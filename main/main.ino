@@ -32,8 +32,8 @@ Array<Sensor, System::MAX_LAMPS> sensors ({
 const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
 
 Array<LED, System::MAX_LAMPS> leds ({
-	LED(12, 11, 10),
-	LED(4, 3, 2)
+	LED(4, 3, 2),
+	LED(12, 11, 10)
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
@@ -58,22 +58,9 @@ void sensorMonitorTask(void *args);
 
 void setup()
 {
-	Serial.begin(9600);
-	Serial.println("Inicio de Control de Tráfico");
-
-	TaskHandle_t semHandle0 = NULL;
-	TaskHandle_t semHandle1 = NULL;
+	for(uint8_t i = 0; i < System::MAX_LAMPS; i++)
+		xTaskCreate(lampTask, "Lamp " + i, 128, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);
 	
-	/*for(uint8_t i = 0; i < System::MAX_LAMPS; i++)
-		xTaskCreate(lampTask, "Lamp " + i, 128, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);*/
-	xTaskCreate(lampTask1, "Lamp " + 0, 128, (void*) (&taskIndices[0]), System::LAMP_PRIORITY, &semHandle0);
-	//xTaskCreate(lampTask2, "Lamp " + 1, 128, (void*) (&taskIndices[1]), System::LAMP_PRIORITY, &semHandle1);
-
-	if (semHandle0 != pdPASS)
-		Serial.println("SemHandle 0 no creado");
-	if (semHandle1 != pdPASS)
-		Serial.println("SemHandle 1 no creado");
-
 	xTaskCreate(controllerTask, "Controller", 128, NULL, System::CONTROLLER_PRIORITY, NULL);
 	xTaskCreate(sensorMonitorTask, "Sensor Monitor", 128, NULL, System::SENSOR_MONITOR_PRIORITY, NULL);
 
@@ -84,31 +71,19 @@ void loop()
 {
 }
 
-void lampTask1(void *args)
+void lampTask(void *args)
 {
 	uint8_t lampIndex = *((const uint8_t *) args);
-	Serial.print("Inicio de la tarea Lamp ");
-	Serial.println(lampIndex);
 	lamps[lampIndex].task(args);
-}
-
-void lampTask2(void *args)
-{
-	uint8_t lampIndex = *((const uint8_t *) args);
-	Serial.print("Inicio de la tarea Lamp ");
-	Serial.println(lampIndex);
-	lamps[lampIndex].task(args);	
 }
 
 void controllerTask(void *args)
 {
-	Serial.println("Inicio de tarea Controller");
 	controller.task(args);
 }
 
 void sensorMonitorTask(void *args)
 {
-	Serial.println("Inicio de tarea Sensor Monitor");
 	sensorMonitor.task(args);
 }
 
