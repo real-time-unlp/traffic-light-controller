@@ -42,6 +42,7 @@ void Controller::task(void *args)
 			// Solo alternar semáforos y hay mas de uno participando
 			if (active.size() > 1) {
 				active.next()->halt();
+				delay(1000);
 				active.current()->go();
 			}
 		}
