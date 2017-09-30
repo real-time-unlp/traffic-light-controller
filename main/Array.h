@@ -24,8 +24,6 @@ public:
 	Array &operator=(Array&&) = default;
 	T &operator[](uint8_t index)
 	{
-		if (index >= Capacity)
-			Serial.write("Array: acceso fuera de rango.");
 		return elements[index];
 	}
 	uint8_t size() const

@@ -20,9 +20,7 @@ void Lamp::task(void *args)
 			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE) {
 				led.set(LED::State::Yellow);
 				delay(System::YELLOW_DURATION);
-			} else {
 			}
-		} else {
 		}
 	}
 }

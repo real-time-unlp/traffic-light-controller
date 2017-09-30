@@ -33,7 +33,7 @@ const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
 
 Array<LED, System::MAX_LAMPS> leds ({
 	LED(4, 3, 2),
-	LED(12, 11, 10)
+	LED(7, 6, 5)
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
