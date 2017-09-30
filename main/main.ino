@@ -51,8 +51,7 @@ const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1 };
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);
 
-void lampTask1(void *args);
-void lampTask2(void *args);
+void lampTask(void *args);
 void controllerTask(void *args);
 void sensorMonitorTask(void *args);
 
