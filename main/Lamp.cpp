@@ -14,13 +14,11 @@ void Lamp::task(void *args)
 {
 	while (1) {
 		led.set(LED::State::Red);
-		if (xSemaphoreTake(run_sem, portMAX_DELAY) == pdTRUE) {
-			led.set(LED::State::Green);
-			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE) {
-				led.set(LED::State::Yellow);
-				delay(System::YELLOW_DURATION);
-			}
-		}
+		xSemaphoreTake(run_sem, portMAX_DELAY);
+		led.set(LED::State::Green);
+		xSemaphoreTake(halt_sem, portMAX_DELAY);
+		led.set(LED::State::Yellow);
+		delay(System::YELLOW_DURATION);
 	}
 }
 
