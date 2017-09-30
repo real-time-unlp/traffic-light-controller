@@ -22,15 +22,20 @@ void Controller::task(void *args)
 		// Si se lo encuentra, nos quedamos con ese.
 		// En caso contrario lo buscamos en los inactivos para apagarlo.
 		bool activeFound = false;
-		for (uint8_t i = 0; i < active.size() && !activeFound; i++, active.next())
-			activeFound = active.current()->ledState() == LED::State::Green;
+		for (uint8_t i = 0; i < active.size() && !activeFound; i++)
+			if (active.next()->ledState() == LED::State::Green) {
+				activeFound = true;
+				active.prev();
+			}
 
 		if (!activeFound) {
 			// Apagamos el que esté en verde y no deba estarlo
-			for (uint8_t i = 0; i < inactive.size(); i++, inactive.next())
+			bool inactiveFound = false;
+			for (uint8_t i = 0; i < inactive.size() && !inactiveFound; i++, inactive.next())
 				if (inactive.current()->ledState() == LED::State::Green) {
 					inactive.current()->halt();
 					delay(System::TRANSITION_TO_ANOTHER_LAMP);
+					inactiveFound = true;
 				}
 
 			// Prendemos el primer activo
@@ -48,6 +53,7 @@ void Controller::task(void *args)
 				active.current()->go();
 			}
 		}
+		
 		active = this->newActive;
 		inactive = this->newInactive;
 		xSemaphoreGive(empty);
