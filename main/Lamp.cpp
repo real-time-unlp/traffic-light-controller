@@ -16,6 +16,7 @@ void Lamp::task(void *args)
 {
 	while (1) {
 		led.set(LED::State::Red);
+		Serial.println("Hola?");
 		if (xSemaphoreTake(run_sem, portMAX_DELAY) == pdTRUE) {
 			led.set(LED::State::Green);
 			if (xSemaphoreTake(halt_sem, portMAX_DELAY) == pdTRUE) {
