@@ -8,49 +8,22 @@
 #include <Array.h>
 #include <Sensor.h>
 
-/*
-Array<LED, System::MAX_LAMPS> leds ({
-	LED(0,1,2),
-	LED(3,4,5),
-	LED(6,7,8),
-	LED(9,10,11)
-});
-
-Array<Lamp, System::MAX_LAMPS> lamps ({
-	Lamp(leds[0], 0),
-	Lamp(leds[1], 1),
-	Lamp(leds[2], 2),
-	Lamp(leds[3], 3)
-});
-
-Array<Sensor, System::MAX_LAMPS> sensors ({
-	Sensor(lamps[0], A0, HIGH),
-	Sensor(lamps[1], A1, HIGH),
-	Sensor(lamps[2], A2, HIGH),
-	Sensor(lamps[3], A3, HIGH)
-});
-
-const uint8_t taskIndices[System::MAX_LAMPS] {0, 1, 2, 3};*/
-
 Array<LED, System::MAX_LAMPS> leds ({
 	LED(11, 10, 9),
-	LED(5, 4, 3),
 	LED(8, 7, 6)
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
 	Lamp(leds[0], 0),
-	Lamp(leds[1], 1),
-	Lamp(leds[2], 2)
+	Lamp(leds[1], 1)
 });
 
 Array<Sensor, System::MAX_LAMPS> sensors ({
 	Sensor(lamps[0], A0, HIGH),
-	Sensor(lamps[1], A1, HIGH),
-	Sensor(lamps[2], A2, HIGH)
+	Sensor(lamps[1], A1, HIGH)
 });
 
-const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1, 2 };
+const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1 };
 
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);

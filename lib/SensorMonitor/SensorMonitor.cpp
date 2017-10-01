@@ -1,4 +1,4 @@
-#include "SensorMonitor.h"
+#include <SensorMonitor.h>
 #include <Arduino_FreeRTOS.h>
 
 SensorMonitor::SensorMonitor(Controller &controller, Array<Sensor, System::MAX_LAMPS> &sensors)

@@ -1,5 +1,5 @@
-#include "Lamp.h"
-#include "System.h"
+#include <Lamp.h>
+#include <System.h>
 #include <Arduino.h>
 
 Lamp::Lamp(LED &led, uint8_t id)

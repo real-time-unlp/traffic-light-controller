@@ -2,7 +2,7 @@
 #define SENSOR_H
 
 #include <stdint.h>
-#include "Lamp.h"
+#include <Lamp.h>
 
 class Sensor {
 private:

@@ -1,10 +1,10 @@
 #ifndef SENSOR_MONITOR_H
 #define SENSOR_MONITOR_H
 
-#include "System.h"
-#include "Array.h"
-#include "Sensor.h"
-#include "Controller.h"
+#include <System.h>
+#include <Array.h>
+#include <Sensor.h>
+#include <Controller.h>
 
 class SensorMonitor {
 private:

@@ -3,11 +3,11 @@
 
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
-#include "CircularList.h"
-#include "System.h"
-#include "Lamp.h"
-#include "Sensor.h"
-#include "Array.h"
+#include <CircularList.h>
+#include <System.h>
+#include <Lamp.h>
+#include <Sensor.h>
+#include <Array.h>
 
 class Controller {
 private:
