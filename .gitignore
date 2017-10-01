@@ -1,5 +1,3 @@
 .pioenvs
 .piolibdeps
-.vscode
-.travis.yml
-platformio.ini
+.vscode/c_cpp_properties.json
