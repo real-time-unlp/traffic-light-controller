@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <Arduino.h>
 
+/*
+ * Arreglo genérico para cualquier tipo. La razón para usar esto que se tiene 
+ * una función size() para iterar un poco mas facil.
+ */
 template<typename T, unsigned Capacity>
 class Array {
 	T elements[Capacity];
@@ -26,7 +30,7 @@ public:
 	{
 		return elements[index];
 	}
-	uint8_t size() const
+	constexpr uint8_t size() const
 	{
 		return Capacity;
 	}

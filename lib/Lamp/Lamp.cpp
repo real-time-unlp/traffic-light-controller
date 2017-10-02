@@ -34,12 +34,12 @@ void Lamp::halt()
 		xSemaphoreGive(halt_sem);
 }
 
-LED::State Lamp::ledState()
+LED::State Lamp::ledState() const
 {
 	return led.state();
 }
 
-uint8_t Lamp::id()
+uint8_t Lamp::id() const
 {
 	return mId;
 }
