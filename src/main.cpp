@@ -26,8 +26,6 @@ Array<Sensor, System::MAX_LAMPS> sensors ({
 	Sensor(lamps[2], A2, HIGH)
 });
 
-const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1, 2 };
-
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);
 
@@ -38,7 +36,7 @@ void sensorMonitorTask(void *args);
 void setup()
 {
 	for(uint8_t i = 0; i < System::MAX_LAMPS; i++)
-		xTaskCreate(lampTask, "", configMINIMAL_STACK_SIZE, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);
+		xTaskCreate(lampTask, "", configMINIMAL_STACK_SIZE, (void*) (&lamps[i]), System::LAMP_PRIORITY, NULL);
 	
 	xTaskCreate(controllerTask, "", configMINIMAL_STACK_SIZE, NULL, System::CONTROLLER_PRIORITY, NULL);
 	xTaskCreate(sensorMonitorTask, "", configMINIMAL_STACK_SIZE, NULL, System::SENSOR_MONITOR_PRIORITY, NULL);
@@ -52,8 +50,8 @@ void loop()
 
 void lampTask(void *args)
 {
-	uint8_t lampIndex = *((const uint8_t *) args);
-	lamps[lampIndex].task(args);
+	Lamp *lamp = (Lamp*) args;
+	lamp->task(NULL);
 }
 
 void controllerTask(void *args)
