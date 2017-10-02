@@ -10,20 +10,23 @@
 
 Array<LED, System::MAX_LAMPS> leds ({
 	LED(11, 10, 9),
+	LED(5, 4, 3),
 	LED(8, 7, 6)
 });
 
 Array<Lamp, System::MAX_LAMPS> lamps ({
 	Lamp(leds[0], 0),
-	Lamp(leds[1], 1)
+	Lamp(leds[1], 1),
+	Lamp(leds[2], 2)
 });
 
 Array<Sensor, System::MAX_LAMPS> sensors ({
 	Sensor(lamps[0], A0, HIGH),
-	Sensor(lamps[1], A1, HIGH)
+	Sensor(lamps[1], A1, HIGH),
+	Sensor(lamps[2], A2, HIGH)
 });
 
-const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1 };
+const uint8_t taskIndices[System::MAX_LAMPS] { 0, 1, 2 };
 
 Controller controller;
 SensorMonitor sensorMonitor(controller, sensors);
@@ -35,10 +38,10 @@ void sensorMonitorTask(void *args);
 void setup()
 {
 	for(uint8_t i = 0; i < System::MAX_LAMPS; i++)
-		xTaskCreate(lampTask, "Lamp " + i, configMINIMAL_STACK_SIZE, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);
+		xTaskCreate(lampTask, "", configMINIMAL_STACK_SIZE, (void*) (&taskIndices[i]), System::LAMP_PRIORITY, NULL);
 	
-	xTaskCreate(controllerTask, "Controller", configMINIMAL_STACK_SIZE, NULL, System::CONTROLLER_PRIORITY, NULL);
-	xTaskCreate(sensorMonitorTask, "Sensor Monitor", configMINIMAL_STACK_SIZE, NULL, System::SENSOR_MONITOR_PRIORITY, NULL);
+	xTaskCreate(controllerTask, "", configMINIMAL_STACK_SIZE, NULL, System::CONTROLLER_PRIORITY, NULL);
+	xTaskCreate(sensorMonitorTask, "", configMINIMAL_STACK_SIZE, NULL, System::SENSOR_MONITOR_PRIORITY, NULL);
 
 	vTaskStartScheduler();
 }

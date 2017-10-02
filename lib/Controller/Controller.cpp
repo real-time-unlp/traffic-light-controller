@@ -33,7 +33,7 @@ void Controller::task(void *args)
 			for (uint8_t i = 0; i < inactive.size() && !inactiveFound; i++, inactive.next())
 				if (inactive.current()->ledState() == LED::State::Green) {
 					inactive.current()->halt();
-					delay(System::TRANSITION_TO_ANOTHER_LAMP);
+					//delay(System::TRANSITION_TO_ANOTHER_LAMP);
 					inactiveFound = true;
 				}
 
