@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 /*
- * Esta clase solamente abstrae casi innecesariamente un conjunto de tres LEDs:
+ * Esta clase solamente abstrae un conjunto de tres LEDs:
  * uno rojo, otro amarillo y otro azul.
  * Debería ser autoexplicativa
  */
