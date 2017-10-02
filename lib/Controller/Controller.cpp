@@ -49,7 +49,8 @@ void Controller::task(void *args)
 			if (active.size() > 1) {
 				active.next()->halt();
 				delay(System::TRANSITION_TO_ANOTHER_LAMP);
-				active.current()->go();
+				if (!uxSemaphoreGetCount(full))
+					active.current()->go();
 			}
 		}
 		
