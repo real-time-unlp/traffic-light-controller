@@ -3,6 +3,14 @@
 
 #include <stdint.h>
 
+/*
+ * Esta clase genérica implementa una lista circular de punteros a algo de tipo T.
+ * Sólo se pueden agregar elementos, no quitarlos.
+ * Se conserva en el estado de la clase el índice actual.
+ * Cuando se trata de agregar algo y la lista está llena, no se hace la adición
+ * silenciosamente. Tampoco se garantiza un resultado correcto si se trata de
+ * acceder un elemento estando la lista vacía.
+ */
 template <class T, uint8_t Capacity>
 class CircularList {
 private:

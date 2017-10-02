@@ -39,7 +39,7 @@ void LED::set(State newState)
 	}
 }
 
-LED::State LED::state()
+LED::State LED::state() const
 {
 	return mState;
 }

@@ -6,6 +6,11 @@
 #include <Sensor.h>
 #include <Controller.h>
 
+/*
+ * Esta clase abstrae la tarea que se encarga de períodicamente actualizar las
+ * lecturas de los sensores. También notifica a Controller, pasándole el estado
+ * de los sensores.
+ */
 class SensorMonitor {
 private:
 	Controller &controller;
