@@ -97,7 +97,7 @@
 #define configUSE_16_BIT_TICKS              1
 #define configIDLE_SHOULD_YIELD             1
 
-#define configUSE_MUTEXES                   1
+#define configUSE_MUTEXES                   0
 #define configUSE_RECURSIVE_MUTEXES         0
 #define configUSE_COUNTING_SEMAPHORES       1
 #define configUSE_QUEUE_SETS                0
@@ -132,7 +132,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskSuspend                    0
 #define INCLUDE_vResumeFromISR                  0
 #define INCLUDE_vTaskDelayUntil                 0
-#define INCLUDE_vTaskDelay                      0
+#define INCLUDE_vTaskDelay                      1
 #define INCLUDE_xTaskGetSchedulerState          0
 #define INCLUDE_xTaskGetIdleTaskHandle          0 // create an idle task handle.
 #define INCLUDE_xTaskGetCurrentTaskHandle       0
