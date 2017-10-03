@@ -20,7 +20,7 @@ void Controller::task(void *args)
 		// Se busca un semáforo prendido dentro de los activos.
 		// Si se lo encuentra, nos quedamos con ese.
 		// En caso contrario lo buscamos en los inactivos para apagarlo.
-		if (findActiveOn()) {
+		if (!findActiveOn()) {
 			// Apagamos el que esté en verde y no deba estarlo
 			turnOffPrevious();
 
@@ -44,7 +44,7 @@ void Controller::task(void *args)
 
 bool Controller::findActiveOn()
 {
-	bool result;
+	bool result = false;
 	for (uint8_t i = 0; i < active.size() && !result; i++) {
 		if (active.next()->ledState() == LED::State::Green) {
 			result = true;
