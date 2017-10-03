@@ -20,21 +20,9 @@ void Controller::task(void *args)
 		// Se busca un semáforo prendido dentro de los activos.
 		// Si se lo encuentra, nos quedamos con ese.
 		// En caso contrario lo buscamos en los inactivos para apagarlo.
-		bool activeFound = false;
-		for (uint8_t i = 0; i < active.size() && !activeFound; i++)
-			if (active.next()->ledState() == LED::State::Green) {
-				activeFound = true;
-				active.prev();
-			}
-
-		if (!activeFound) {
+		if (findActiveOn()) {
 			// Apagamos el que esté en verde y no deba estarlo
-			bool inactiveFound = false;
-			for (uint8_t i = 0; i < inactive.size() && !inactiveFound; i++, inactive.next())
-				if (inactive.current()->ledState() == LED::State::Green) {
-					inactive.current()->halt();
-					inactiveFound = true;
-				}
+			turnOffPrevious();
 
 			// Prendemos el primer activo
 			if (active.size() != 0 && !uxSemaphoreGetCount(full))
@@ -45,12 +33,7 @@ void Controller::task(void *args)
 		while (xSemaphoreTake(full, System::TURN_DURATION / portTICK_PERIOD_MS) == pdFALSE) {
 			// No hubo un cambio de estado, sólo tenemos que ir cambiando de semáforo
 			// Solo alternar semáforos y hay mas de uno participando
-			if (active.size() > 1) {
-				active.next()->halt();
-				vTaskDelay(System::TRANSITION_TO_ANOTHER_LAMP / portTICK_PERIOD_MS);
-				if (!uxSemaphoreGetCount(full))
-					active.current()->go();
-			}
+			transition();
 		}
 		
 		active = this->newActive;
@@ -59,9 +42,40 @@ void Controller::task(void *args)
 	}
 }
 
+bool Controller::findActiveOn()
+{
+	bool result;
+	for (uint8_t i = 0; i < active.size() && !result; i++) {
+		if (active.next()->ledState() == LED::State::Green) {
+			result = true;
+			active.prev();
+		}
+	}
+	return result;
+}
+
+void Controller::turnOffPrevious() {
+	bool inactiveFound = false;
+	for (uint8_t i = 0; i < inactive.size() && !inactiveFound; i++, inactive.next()) {
+		if (inactive.current()->ledState() == LED::State::Green) {
+			inactive.current()->halt();
+			inactiveFound = true;
+		}
+	}
+}
+
+void Controller::transition() {
+	if (active.size() > 1) {
+		active.next()->halt();
+		vTaskDelay(System::TRANSITION_TO_ANOTHER_LAMP / portTICK_PERIOD_MS);
+		if (!uxSemaphoreGetCount(full))
+			active.current()->go();
+	}
+}
+
 void Controller::receive(Array<Sensor, System::MAX_LAMPS> &sensors)
 {
-	volatile CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
+	CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
 	// Armamos las listas a partir de los datos de los sensores
 	for (uint8_t i = 0; i < sensors.size(); i++) {
 		const auto &sensor = sensors[i];

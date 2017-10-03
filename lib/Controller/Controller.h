@@ -33,6 +33,9 @@ private:
 	volatile CircularList<Lamp, System::MAX_LAMPS> newActive, newInactive;
 	const volatile SemaphoreHandle_t full, empty;
 
+	bool findActiveOn();
+	void turnOffPrevious();
+	void transition();
 public:
 	Controller();
 	void task(void *args);
