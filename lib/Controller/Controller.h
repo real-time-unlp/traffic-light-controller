@@ -15,12 +15,10 @@ public:
 	Controller();
 	uint8_t pollSensors() const;
 	uint8_t waitForButton();
-	void pedestrianTaskDone();
 	void updatePriorities(uint8_t sensorData);
 	bool isOnlyOneActive(uint8_t sensorData, uint8_t index) const;
 private:
 	SemaphoreHandle_t mMutex;
-	bool mPedestrianButtonState;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
 	PedestrianLight mPedestrianLight;
 };
