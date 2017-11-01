@@ -6,7 +6,7 @@ class Controller;
 
 class PedestrianLight {
 public:
-	PedestrianLight(Controller &controller, uint8_t GreenLightDuration);
+	PedestrianLight(Controller &controller, uint8_t greenLightDuration);
 	TaskHandle_t task()
 	{
 		return mTask;
@@ -18,8 +18,8 @@ private:
 
 	void taskFunction(void *args);
 
-	static void runTask(void *instance, void *args)
+	static void runTask(void *instance)
 	{
-		reinterpret_cast<PedestrianLight*>(instance)->taskFunction(args);
+		reinterpret_cast<PedestrianLight*>(instance)->taskFunction(NULL);
 	};
 };
