@@ -1,25 +1,13 @@
 #pragma once
 #include <stdint.h>
 #include <Arduino_FreeRTOS.h>
+#include <TrafficLight.h>
 
 class Controller;
 
-class PedestrianLight {
+class PedestrianLight : public TrafficLight {
 public:
-	PedestrianLight(Controller &controller, uint8_t greenLightDuration);
-	TaskHandle_t task()
-	{
-		return mTask;
-	}
-
+	PedestrianLight(Controller &controller, uint8_t bitIndex, uint8_t pin, uint8_t greenDuration);
 private:
-	Controller &mController;
-	TaskHandle_t mTask;
-
 	void taskFunction(void *args);
-
-	static void runTask(void *instance)
-	{
-		reinterpret_cast<PedestrianLight*>(instance)->taskFunction(NULL);
-	};
 };
