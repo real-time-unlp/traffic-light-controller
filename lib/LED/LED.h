@@ -9,7 +9,7 @@ public:
 	void green();
 	void off();
 private:
-	const uint8_t redPin;
-	const uint8_t greenPin;
-	const uint8_t bluePin;
+	const uint8_t mRedPin;
+	const uint8_t mYellowPin;
+	const uint8_t mGreenPin;
 };
