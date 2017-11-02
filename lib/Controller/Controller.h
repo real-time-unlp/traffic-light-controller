@@ -17,7 +17,7 @@ public:
 	Controller();
 	bool isOnlyOneActive(const TrafficLight &light) const;
 	void senseAll();
-t stprivate:
+private:
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
 	PedestrianLight mPedestrianLight;
 };

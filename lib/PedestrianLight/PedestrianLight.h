@@ -14,7 +14,7 @@ protected:
 	void taskFunction(void *args);
 private:
 	void sensingTaskFunction(void *args);
-	BaseType_t mMutex;
+	SemaphoreHandle_t mMutex;
 	bool mTouched;
 	void release();
 
