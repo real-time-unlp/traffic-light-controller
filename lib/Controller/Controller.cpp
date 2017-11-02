@@ -12,9 +12,9 @@ Controller::Controller()
 	}
 {
 	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
-		pinMode(mTrafficLights[i].pin(), INPUT);
+		pinMode(mTrafficLights[i].sensorPin(), INPUT);
 
-	pinMode(mPedestrianLight.pin(), INPUT);
+	pinMode(mPedestrianLight.sensorPin(), INPUT);
 	updatePriorities(0);
 	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
 }
@@ -26,10 +26,10 @@ uint8_t Controller::pollSensors()
 	xSemaphoreTake(mMutex, portMAX_DELAY);
 
 	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
-		if (digitalRead(mTrafficLights[i].pin()))
+		if (digitalRead(mTrafficLights[i].sensorPin()))
 			sensorData |= 1 << mTrafficLights[i].bitPosition();
 
-	if (digitalRead(mPedestrianLight.pin()))
+	if (digitalRead(mPedestrianLight.sensorPin()))
 		sensorData |= 1 << mPedestrianLight.bitPosition();
 	
 	xSemaphoreGive(mMutex);
@@ -41,7 +41,7 @@ bool Controller::waitForButton()
 	uint8_t count = 2;
 
 	while (count) {
-		if (digitalRead(mPedestrianLight.pin()) == LOW)
+		if (digitalRead(mPedestrianLight.sensorPin()) == LOW)
 			return false;
 		xSemaphoreGive(mMutex);
 		vTaskDelay(10 / portTICK_PERIOD_MS);

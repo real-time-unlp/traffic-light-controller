@@ -6,16 +6,16 @@ class Controller;
 
 class TrafficLight {
 public:
-	TrafficLight(Controller &controller, uint8_t bitIndex, uint8_t pin, uint8_t greenDuration);
+	TrafficLight(Controller &controller, uint8_t bitIndex, uint8_t sensorPin, uint8_t greenDuration);
 
 	TaskHandle_t task()
 	{
 		return mTask;
 	};
 
-	uint8_t pin()
+	uint8_t sensorPin()
 	{
-		return mPin;
+		return mSensorPin;
 	};
 
 	uint8_t bitPosition()
@@ -26,7 +26,7 @@ public:
 private:
 	Controller &mController;
 	const uint8_t mBitPosition;
-	const uint8_t mPin;
+	const uint8_t mSensorPin;
 	const uint8_t mGreenDuration;
 	TaskHandle_t mTask;
 	virtual void taskFunction(void *args);
