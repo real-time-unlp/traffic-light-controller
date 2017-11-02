@@ -12,12 +12,12 @@ public:
 	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
 			SemaphoreHandle_t semaphore, uint8_t greenDuration);
 protected:
-	TaskHandle_t mSensingTask;
 	virtual void taskFunction(void *args);
 private:
 	void sensingTaskFunction(void *args);
 	SemaphoreHandle_t mMutex;
 	bool mTouched;
+	TaskHandle_t mSensingTask;
 	void release();
 
 	static void runSensingTask(void *instance)
