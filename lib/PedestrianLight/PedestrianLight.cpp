@@ -24,6 +24,7 @@ void PedestrianLight::taskFunction(void *args)
 		vTaskDelay(Controller::RedLightDuration / portTICK_PERIOD_MS);
 
 		mController.senseAll();
+		release();
 		xSemaphoreGive(mSemaphore);
 		taskYIELD();
 	}

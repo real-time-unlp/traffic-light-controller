@@ -12,11 +12,6 @@ public:
 	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 			SemaphoreHandle_t semaphore, uint8_t greenDuration);
 
-	TaskHandle_t task()
-	{
-		return mTask;
-	};
-
 	uint8_t sensorPin()
 	{
 		return mSensorPin;

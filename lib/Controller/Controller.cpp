@@ -14,7 +14,6 @@ Controller::Controller()
 	mPedestrianLight(LED(0, 0, 0), *this, 0, mSemaphore, 30)
 {
 	senseAll();
-	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
 }
 
 void Controller::senseAll()
