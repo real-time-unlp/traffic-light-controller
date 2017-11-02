@@ -8,10 +8,11 @@ class Controller;
 
 class PedestrianLight : public TrafficLight {
 public:
-	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin, uint8_t greenDuration);
+	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
+			SemaphoreHandle_t semaphore, uint8_t greenDuration);
 protected:
 	TaskHandle_t mSensingTask;
-	void taskFunction(void *args);
+	virtual void taskFunction(void *args);
 private:
 	void sensingTaskFunction(void *args);
 	SemaphoreHandle_t mMutex;

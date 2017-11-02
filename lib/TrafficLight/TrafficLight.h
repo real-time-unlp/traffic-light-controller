@@ -8,7 +8,8 @@ class Controller;
 
 class TrafficLight {
 public:
-	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, uint8_t greenDuration);
+	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
+			SemaphoreHandle_t semaphore, uint8_t greenDuration);
 
 	TaskHandle_t task()
 	{
