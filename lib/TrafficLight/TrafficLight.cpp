@@ -1,10 +1,10 @@
-#include <TrafficLight.h>
 #include <Arduino_FreeRTOS.h>
+#include <TrafficLight.h>
 #include <Controller.h>
 
-TrafficLight::TrafficLight(Controller &controller, uint8_t bitPosition, uint8_t sensorPin, uint8_t greenDuration)
-:	mController(controller),
-	mBitPosition(bitPosition),
+TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, uint8_t greenDuration)
+:	mLED(led),
+	mController(controller),
 	mSensorPin(sensorPin),
 	mGreenDuration(greenDuration)
 {

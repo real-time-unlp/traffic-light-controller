@@ -1,9 +1,14 @@
 #include <Controller.h>
 
 
-int main()
+void setup()
 {
 	Controller c;
 	vTaskStartScheduler();
-	return 0;
+}
+
+
+void loop()
+{
+
 }
