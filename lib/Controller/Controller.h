@@ -15,10 +15,8 @@ public:
 	static constexpr uint8_t RedLightDuration = 2;
 
 	Controller();
-	void updatePriorities();
 	bool isOnlyOneActive(const TrafficLight &light) const;
 private:
-	SemaphoreHandle_t mMutex;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
 	PedestrianLight mPedestrianLight;
 	void senseAll();
