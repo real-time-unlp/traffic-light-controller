@@ -1,14 +1,17 @@
 #include <Controller.h>
 
+extern "C" {
 
-void setup()
-{
-	Controller c;
-	vTaskStartScheduler();
-}
+	void setup()
+	{
+		Controller c;
+		vTaskStartScheduler();
+	}
 
 
-void loop()
-{
+	void loop()
+	{
+
+	}
 
 }
