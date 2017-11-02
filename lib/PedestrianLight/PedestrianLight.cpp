@@ -14,7 +14,7 @@ PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sens
 			"",
 			configMINIMAL_STACK_SIZE,
 			this,
-			Controller::LightLowPriority
+			Controller::LightLowPriority,
 			&mSensingTask);
 }
 
