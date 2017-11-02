@@ -3,7 +3,7 @@
 #include <LED.h>
 
 Controller::Controller()
-:	mMutex(xSemaphoreCreateMutex()),
+:
 	mTrafficLights{
 		TrafficLight(LED(0, 0, 0), *this, 0, 30),
 		TrafficLight(LED(0, 0, 0), *this, 0, 30),
@@ -13,7 +13,6 @@ Controller::Controller()
 	mPedestrianLight(LED(0, 0, 0), *this, 0, 30)
 {
 	senseAll();
-	updatePriorities();
 	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
 }
 
@@ -29,7 +28,7 @@ bool Controller::isOnlyOneActive(const TrafficLight &light) const
 	uint8_t activeCount = 0;
 	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
 		if (mTrafficLights[i].active())
-		activeCount++;
+			activeCount++;
 
 	if (mPedestrianLight.active())
 		activeCount++;
