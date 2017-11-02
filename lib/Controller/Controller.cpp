@@ -6,12 +6,12 @@ Controller::Controller()
 :
 	mSemaphore(xSemaphoreCreateCounting(1, 1)),
 	mTrafficLights{
-		TrafficLight(LED(0, 0, 0), *this, 0, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, 30)
+		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30)
 	},
-	mPedestrianLight(LED(0, 0, 0), *this, 0, 30)
+	mPedestrianLight(LED(0, 0, 0), *this, 0, mSemaphore, 30)
 {
 	senseAll();
 	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
