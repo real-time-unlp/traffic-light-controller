@@ -43,6 +43,7 @@ protected:
 	const uint8_t mSensorPin;
 	const uint8_t mGreenDuration;
 	TaskHandle_t mTask;
+	SemaphoreHandle_t mSemaphore;
 private:
 	bool mActive;
 };
