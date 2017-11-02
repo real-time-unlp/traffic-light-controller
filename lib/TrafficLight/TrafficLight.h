@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <Arduino_FreeRTOS.h>
 #include <LED.h>
+#include <semphr.h>
 
 class Controller;
 
