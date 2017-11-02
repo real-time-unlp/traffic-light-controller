@@ -1,12 +1,15 @@
 #pragma once
 #include <stdint.h>
 #include <Arduino_FreeRTOS.h>
+#include <Controller.h>
+#include <LED.h>
 
 class Controller;
 
+
 class TrafficLight {
 public:
-	TrafficLight(Controller &controller, uint8_t bitIndex, uint8_t sensorPin, uint8_t greenDuration);
+	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, uint8_t greenDuration);
 
 	TaskHandle_t task()
 	{
@@ -18,21 +21,28 @@ public:
 		return mSensorPin;
 	};
 
-	uint8_t bitPosition()
-	{
-		return mBitPosition;
-	};
+	/*
+	 * Realiza la lectura para determinar si está activo o no y cambia la
+	 * prioridad de su tarea.
+	 */
+	virtual void sense();
 
-private:
-	Controller &mController;
-	const uint8_t mBitPosition;
-	const uint8_t mSensorPin;
-	const uint8_t mGreenDuration;
-	TaskHandle_t mTask;
+	// Devuelve el resultado de lo realizado por sense()
+	virtual bool active() const;
+protected:
+
 	virtual void taskFunction(void *args);
 
 	static void runTask(void *instance)
 	{
 		reinterpret_cast<TrafficLight*>(instance)->taskFunction(nullptr);
 	};
+
+	LED mLED;
+	Controller &mController;
+	const uint8_t mSensorPin;
+	const uint8_t mGreenDuration;
+	TaskHandle_t mTask;
+private:
+	bool mActive;
 };

@@ -2,7 +2,9 @@
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 #include <TrafficLight.h>
-#include <../PedestrianLight/PedestrianLight.h>
+#include "../PedestrianLight/PedestrianLight.h"
+
+class PedestrianLight;
 
 class Controller {
 public:
@@ -13,12 +15,11 @@ public:
 	static constexpr uint8_t RedLightDuration = 2;
 
 	Controller();
-	uint8_t pollSensors();
-	bool waitForButton();
-	void updatePriorities(uint8_t sensorData);
-	bool isOnlyOneActive(uint8_t sensorData, uint8_t index) const;
+	void updatePriorities();
+	bool isOnlyOneActive(const TrafficLight &light) const;
 private:
 	SemaphoreHandle_t mMutex;
-	PedestrianLight mPedestrianLight;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
+	PedestrianLight mPedestrianLight;
+	void senseAll();
 };

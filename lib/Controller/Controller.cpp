@@ -1,72 +1,38 @@
 #include <Controller.h>
 #include <Arduino.h>
+#include <LED.h>
 
 Controller::Controller()
 :	mMutex(xSemaphoreCreateMutex()),
-	mPedestrianLight(*this, 0, 1, 30),
 	mTrafficLights{
-		TrafficLight(*this, 1, 1, 30),
-		TrafficLight(*this, 2, 1, 30),
-		TrafficLight(*this, 3, 1, 30),
-		TrafficLight(*this, 4, 1, 30)
-	}
+		TrafficLight(LED(0, 0, 0), *this, 0, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, 30),
+		TrafficLight(LED(0, 0, 0), *this, 0, 30)
+	},
+	mPedestrianLight(LED(0, 0, 0), *this, 0, 30)
 {
-	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
-		pinMode(mTrafficLights[i].sensorPin(), INPUT);
-
-	pinMode(mPedestrianLight.sensorPin(), INPUT);
-	updatePriorities(0);
+	senseAll();
+	updatePriorities();
 	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
 }
 
-uint8_t Controller::pollSensors()
+void Controller::senseAll()
 {
-	uint8_t sensorData = 0;
-
-	xSemaphoreTake(mMutex, portMAX_DELAY);
-
 	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
-		if (digitalRead(mTrafficLights[i].sensorPin()))
-			sensorData |= 1 << mTrafficLights[i].bitPosition();
-
-	if (digitalRead(mPedestrianLight.sensorPin()))
-		sensorData |= 1 << mPedestrianLight.bitPosition();
-	
-	xSemaphoreGive(mMutex);
-	return sensorData;
+		mTrafficLights[i].sense();
+	mPedestrianLight.sense();
 }
 
-bool Controller::waitForButton()
+bool Controller::isOnlyOneActive(const TrafficLight &light) const
 {
-	uint8_t count = 2;
+	uint8_t activeCount = 0;
+	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
+		if (mTrafficLights[i].active())
+		activeCount++;
 
-	while (count) {
-		if (digitalRead(mPedestrianLight.sensorPin()) == LOW)
-			return false;
-		xSemaphoreGive(mMutex);
-		vTaskDelay(10 / portTICK_PERIOD_MS);
-		xSemaphoreTake(mMutex, portMAX_DELAY);
-		count--;
-	}
+	if (mPedestrianLight.active())
+		activeCount++;
 
-	return true;
-}
-
-void Controller::updatePriorities(uint8_t sensorData)
-{
-	BaseType_t priority;
-
-	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++) {
-		if (sensorData & (1 << mTrafficLights[i].bitPosition()))
-			priority = LightHighPriority;
-		else
-			priority = LightLowPriority;
-
-		vTaskPrioritySet(mTrafficLights[i].task(), priority);
-	}
-}
-
-bool Controller::isOnlyOneActive(uint8_t sensorData, uint8_t index) const
-{
-	return sensorData == 1 << index;
+	return activeCount == 1 && light.active();
 }

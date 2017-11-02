@@ -1,6 +1,5 @@
 #include <Controller.h>
-#include <TrafficLight.h>
-#include <PedestrianLight.h>
+
 
 int main()
 {
