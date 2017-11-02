@@ -1,7 +1,8 @@
 #pragma once
 #include <stdint.h>
 #include <Arduino_FreeRTOS.h>
-#include <../TrafficLight/TrafficLight.h>
+#include <TrafficLight.h>
+#include <semphr.h>
 
 class LED;
 class Controller;

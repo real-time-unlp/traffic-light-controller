@@ -1,10 +1,10 @@
-#include <TrafficLight.h>
 #include <PedestrianLight.h>
 #include <Arduino_FreeRTOS.h>
+#include <semphr.h>
 
 PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin, uint8_t greenDuration)
-: TrafficLight(led, controller, sensorPin, greenDuration),
-  mMutex(xSemaphoreCreateMutex())
+: TrafficLight(static_cast<LED&&>(led), controller, sensorPin, greenDuration),
+  mMutex(xSemaphoreCreateCounting(1, 1))
 {
 
 }
