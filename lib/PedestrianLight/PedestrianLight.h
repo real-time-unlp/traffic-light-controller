@@ -11,10 +11,15 @@ class PedestrianLight : public TrafficLight {
 public:
 	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
 			SemaphoreHandle_t semaphore, uint8_t greenDuration);
+
+	virtual void sense();
+	virtual bool active() const;
+
 protected:
 	virtual void taskFunction(void *args);
 private:
 	void sensingTaskFunction(void *args);
+	SemaphoreHandle_t mIdleSemaphore;
 	SemaphoreHandle_t mMutex;
 	bool mTouched;
 	TaskHandle_t mSensingTask;

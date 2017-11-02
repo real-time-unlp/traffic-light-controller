@@ -7,6 +7,7 @@
 PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
 				SemaphoreHandle_t semaphore ,uint8_t greenDuration)
 : TrafficLight(static_cast<LED&&>(led), controller, sensorPin, semaphore, greenDuration),
+  mIdleSemaphore(xSemaphoreCreateCounting(1, 1)),
   mMutex(xSemaphoreCreateCounting(1, 1)),
   mTouched(false)
 {
@@ -24,6 +25,7 @@ void PedestrianLight::taskFunction(void *args)
 
 		mController.senseAll();
 		xSemaphoreGive(mSemaphore);
+		taskYIELD();
 	}
 }
 
@@ -39,7 +41,7 @@ void PedestrianLight::sensingTaskFunction(void *args)
 			xSemaphoreTake(mMutex, portMAX_DELAY);
 			mTouched = true;
 			xSemaphoreGive(mMutex);
-			// podria dormirse hasta que se haga release() o algo
+			xSemaphoreTake(mIdleSemaphore, portMAX_DELAY);
 		}
 
 		vTaskDelay(50 / portTICK_PERIOD_MS);
@@ -51,4 +53,19 @@ void PedestrianLight::release()
 	xSemaphoreTake(mMutex, portMAX_DELAY);
 	mTouched = false;
 	xSemaphoreGive(mMutex);
+	xSemaphoreGive(mIdleSemaphore);
+}
+
+void PedestrianLight::sense()
+{
+	// nop
+}
+
+bool PedestrianLight::active() const
+{
+	bool touched;
+	xSemaphoreTake(mMutex, portMAX_DELAY);
+	touched = mTouched;
+	xSemaphoreGive(mMutex);
+	return touched;
 }
