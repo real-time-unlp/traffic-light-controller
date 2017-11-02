@@ -3,7 +3,7 @@
 #include <LED.h>
 
 Controller::Controller()
-:	mMutex(xSemaphoreCreateMutex()),
+:
 	mTrafficLights{
 		TrafficLight(LED(0, 0, 0), *this, 0, 30),
 		TrafficLight(LED(0, 0, 0), *this, 0, 30),
@@ -13,7 +13,6 @@ Controller::Controller()
 	mPedestrianLight(LED(0, 0, 0), *this, 0, 30)
 {
 	senseAll();
-	updatePriorities();
 	vTaskPrioritySet(mPedestrianLight.task(), LightHighPriority);
 }
 
