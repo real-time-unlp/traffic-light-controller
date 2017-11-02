@@ -18,6 +18,7 @@ public:
 	bool isOnlyOneActive(const TrafficLight &light) const;
 	void senseAll();
 private:
+	SemaphoreHandle_t mSemaphore;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
 	PedestrianLight mPedestrianLight;
 };
