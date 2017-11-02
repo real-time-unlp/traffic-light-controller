@@ -10,12 +10,7 @@ PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sens
   mMutex(xSemaphoreCreateCounting(1, 1)),
   mTouched(false)
 {
-	xTaskCreate(	runSensingTask,
-			"",
-			configMINIMAL_STACK_SIZE,
-			this,
-			Controller::LightLowPriority
-			&mSensingTask);
+	xTaskCreate(runSensingTask, "", configMINIMAL_STACK_SIZE, this, Controller::LightLowPriority, &mSensingTask);
 }
 
 void PedestrianLight::taskFunction(void *args)

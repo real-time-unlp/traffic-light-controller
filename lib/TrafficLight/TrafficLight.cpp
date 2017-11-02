@@ -19,6 +19,10 @@ TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 void TrafficLight::sense()
 {
 	mActive = (digitalRead(mSensorPin) == LOW);
+	if (mActive)
+		vTaskPrioritySet(mTask, Controller::LightHighPriority);
+	else
+		vTaskPrioritySet(mTask, Controller::LightLowPriority);
 }
 
 bool TrafficLight::active() const
