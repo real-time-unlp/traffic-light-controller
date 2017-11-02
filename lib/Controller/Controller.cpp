@@ -29,7 +29,7 @@ bool Controller::isOnlyOneActive(const TrafficLight &light) const
 	uint8_t activeCount = 0;
 	for (uint8_t i = 0; i < TRAFFIC_LIGHTS; i++)
 		if (mTrafficLights[i].active())
-		activeCount++;
+			activeCount++;
 
 	if (mPedestrianLight.active())
 		activeCount++;
