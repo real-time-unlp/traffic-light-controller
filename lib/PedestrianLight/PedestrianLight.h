@@ -20,6 +20,7 @@ private:
 	void sensingTaskFunction(void *args);
 	SemaphoreHandle_t mIdleSemaphore;
 	SemaphoreHandle_t mMutex;
+	SemaphoreHandle_t mTouchedSem;
 	bool mTouched;
 	TaskHandle_t mSensingTask;
 	void release();
