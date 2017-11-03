@@ -34,8 +34,10 @@ void PedestrianLight::sensingTaskFunction(void *args)
 	uint8_t count;
 	while (true) {
 		count = 3;
-		while (digitalRead(mSensorPin))
+		while (count && digitalRead(mSensorPin)) {
+			vTaskDelay(50 / portTICK_PERIOD_MS);
 			count--;
+		}
 
 		if (count == 0) {
 			xSemaphoreTake(mMutex, portMAX_DELAY);
@@ -44,7 +46,6 @@ void PedestrianLight::sensingTaskFunction(void *args)
 			xSemaphoreTake(mIdleSemaphore, portMAX_DELAY);
 		}
 
-		vTaskDelay(50 / portTICK_PERIOD_MS);
 	}
 }
 
