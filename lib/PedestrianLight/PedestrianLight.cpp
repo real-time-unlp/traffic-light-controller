@@ -59,7 +59,12 @@ void PedestrianLight::release()
 
 void PedestrianLight::sense()
 {
-	// nop
+	xSemaphoreTake(mMutex, portMAX_DELAY);
+	if (mTouched)
+		vTaskPrioritySet(NULL, Controller::LightHighPriority);
+	else
+		vTaskPrioritySet(NULL, Controller::LightLowPriority);
+	xSemaphoreGive(mMutex);
 }
 
 bool PedestrianLight::active() const
