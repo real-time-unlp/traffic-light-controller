@@ -8,10 +8,10 @@ Controller::Controller()
 	mTrafficLights{
 		TrafficLight(LED(2, 1, 0), *this, A0, mSemaphore, Controller::GreenAvenueDuration),
 		TrafficLight(LED(5, 4, 3), *this, A1, mSemaphore, Controller::GreenAvenueDuration),
-		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, Controller::GreenAvenueDuration),
-		TrafficLight(LED(8, 7, 6), *this, A2, mSemaphore, Controller::GreenAvenueDuration)
+		TrafficLight(LED(8, 7, 6), *this, A2, mSemaphore, Controller::GreenAvenueDuration),
+		TrafficLight(LED(11, 10, 9), *this, A3, mSemaphore, Controller::GreenAvenueDuration)
 	},
-	mPedestrianLight(LED(13, 13, 12), *this, A3, mSemaphore, Controller::GreenAvenueDuration)
+	mPedestrianLight(LED(13, 13, 12), *this, A4, mSemaphore, Controller::GreenAvenueDuration)
 {
 	senseAll();
 }
