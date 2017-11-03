@@ -1,17 +1,14 @@
 #include <Controller.h>
+#include <Arduino.h>
 
-extern "C" {
-
-	void setup()
-	{
-		Controller c;
-		vTaskStartScheduler();
-	}
+void setup()
+{
+	Controller c;
+	vTaskStartScheduler();
+}
 
 
-	void loop()
-	{
-
-	}
+void loop()
+{
 
 }
