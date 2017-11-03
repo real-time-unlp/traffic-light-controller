@@ -42,6 +42,8 @@ void TrafficLight::taskFunction(void *args)
 				vTaskDelay(greenTime / portTICK_PERIOD_MS);
 				greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
 				senseAndUpdatePriorities();
+				BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
+				vTaskPrioritySet(NULL, newPriority);
 			} while(mController.isOnlyOneActive(*this));
 			mLED.yellow();
 			vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
@@ -59,6 +61,4 @@ void TrafficLight::senseAndUpdatePriorities()
 	xSemaphoreGive(mSemaphore);
 	mController.senseAll();
 	xSemaphoreTake(mSemaphore, portMAX_DELAY);
-	BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
-	vTaskPrioritySet(NULL, newPriority);
 }

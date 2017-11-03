@@ -25,6 +25,7 @@ void PedestrianLight::taskFunction(void *args)
 			mLED.green();
 			vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
 			senseAndUpdatePriorities();
+			vTaskPrioritySet(mTask, TrafficLight::HighPriority);
 			//TODO falta el amarillo.
 			mLED.red();
 			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
