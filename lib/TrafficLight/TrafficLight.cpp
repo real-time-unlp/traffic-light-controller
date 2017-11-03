@@ -11,7 +11,7 @@ TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 	mSemaphore(semaphore)
 {
 	mActive = false;
-	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, Controller::LightLowPriority, &mTask);
+	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, LowPriority, &mTask);
 	pinMode(sensorPin, INPUT);
 	mLED.off();
 }
@@ -20,9 +20,9 @@ void TrafficLight::sense()
 {
 	mActive = (digitalRead(mSensorPin) == LOW);
 	if (mActive)
-		vTaskPrioritySet(mTask, Controller::LightHighPriority);
+		vTaskPrioritySet(mTask, HighPriority);
 	else
-		vTaskPrioritySet(mTask, Controller::LightLowPriority);
+		vTaskPrioritySet(mTask, LowPriority);
 }
 
 bool TrafficLight::active() const
@@ -44,9 +44,9 @@ void TrafficLight::taskFunction(void *args)
 				mController.senseAll();
 			} while(mController.isOnlyOneActive(*this));
 			mLED.yellow();
-			vTaskDelay(Controller::YellowLightDuration / portTICK_PERIOD_MS);
+			vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
 			mLED.red();
-			vTaskDelay(Controller::RedLightDuration / portTICK_PERIOD_MS);
+			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
 		}
 		xSemaphoreGive(mSemaphore);
 		taskYIELD();
