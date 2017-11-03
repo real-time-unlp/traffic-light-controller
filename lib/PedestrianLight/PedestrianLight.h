@@ -9,8 +9,7 @@ class Controller;
 
 class PedestrianLight : public TrafficLight {
 public:
-	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
-			SemaphoreHandle_t semaphore, uint8_t greenDuration);
+	PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore, uint16_t greenDuration);
 
 	virtual void sense();
 	virtual bool active() const;

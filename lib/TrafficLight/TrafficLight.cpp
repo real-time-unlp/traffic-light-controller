@@ -3,7 +3,7 @@
 #include <Controller.h>
 #include <Arduino.h>
 
-TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore, uint8_t greenDuration)
+TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore, uint16_t greenDuration)
 :	mLED(led),
 	mController(controller),
 	mSensorPin(sensorPin),
@@ -32,7 +32,7 @@ bool TrafficLight::active() const
 
 void TrafficLight::taskFunction(void *args)
 {
-	uint8_t greenTime;
+	uint16_t greenTime;
 	mLED.red();
 	while(1) {
 		greenTime = mGreenDuration;
@@ -40,7 +40,7 @@ void TrafficLight::taskFunction(void *args)
 			do {
 				mLED.green();
 				vTaskDelay(greenTime / portTICK_PERIOD_MS);
-				greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
+				//greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
 				mController.senseAll();
 			} while(mController.isOnlyOneActive(*this));
 			mLED.yellow();

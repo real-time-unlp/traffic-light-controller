@@ -4,14 +4,13 @@
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 
-PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin,
-				SemaphoreHandle_t semaphore ,uint8_t greenDuration)
+PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore ,uint16_t greenDuration)
 : TrafficLight(static_cast<LED&&>(led), controller, sensorPin, semaphore, greenDuration),
   mIdleSemaphore(xSemaphoreCreateCounting(1, 1)),
   mMutex(xSemaphoreCreateCounting(1, 1)),
   mTouched(false)
 {
-	xTaskCreate(runSensingTask, "", configMINIMAL_STACK_SIZE, this, Controller::LightLowPriority, &mSensingTask);
+	xTaskCreate(runSensingTask, "", configMINIMAL_STACK_SIZE, this, Controller::SensingTaskPriority, &mSensingTask);
 }
 
 void PedestrianLight::taskFunction(void *args)

@@ -10,7 +10,7 @@ class Controller;
 class TrafficLight {
 public:
 	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
-			SemaphoreHandle_t semaphore, uint8_t greenDuration);
+			SemaphoreHandle_t semaphore, uint16_t greenDuration);
 
 	uint8_t sensorPin()
 	{
@@ -37,7 +37,7 @@ protected:
 	LED mLED;
 	Controller &mController;
 	const uint8_t mSensorPin;
-	const uint8_t mGreenDuration;
+	const uint16_t mGreenDuration;
 	TaskHandle_t mTask;
 	SemaphoreHandle_t mSemaphore;
 private:

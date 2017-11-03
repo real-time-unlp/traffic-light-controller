@@ -6,12 +6,12 @@ Controller::Controller()
 :
 	mSemaphore(xSemaphoreCreateCounting(1, 1)),
 	mTrafficLights{
-		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30),
-		TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, 30)
+		TrafficLight(LED(2, 1, 0), *this, A0, mSemaphore, Controller::GreenAvenueDuration),
+		TrafficLight(LED(5, 4, 3), *this, A1, mSemaphore, Controller::GreenAvenueDuration),
+		//TrafficLight(LED(0, 0, 0), *this, 0, mSemaphore, Controller::GreenAvenueDuration),
+		TrafficLight(LED(8, 7, 6), *this, A2, mSemaphore, Controller::GreenAvenueDuration)
 	},
-	mPedestrianLight(LED(0, 0, 0), *this, 0, mSemaphore, 30)
+	mPedestrianLight(LED(13, 13, 12), *this, A3, mSemaphore, Controller::GreenAvenueDuration)
 {
 	senseAll();
 }

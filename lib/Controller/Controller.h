@@ -8,11 +8,15 @@ class PedestrianLight;
 
 class Controller {
 public:
-	static constexpr uint8_t TRAFFIC_LIGHTS = 4; 
-	static constexpr BaseType_t LightLowPriority = 1;
-	static constexpr BaseType_t LightHighPriority = 2;
-	static constexpr uint8_t YellowLightDuration = 3;
-	static constexpr uint8_t RedLightDuration = 2;
+	static constexpr uint8_t TRAFFIC_LIGHTS = 3;
+
+	static constexpr BaseType_t LightHighPriority = 3;
+	static constexpr BaseType_t LightLowPriority = 2;
+	static constexpr BaseType_t SensingTaskPriority = 1;
+
+	static constexpr uint16_t GreenAvenueDuration = 1000;
+	static constexpr uint16_t YellowLightDuration = 500;
+	static constexpr uint16_t RedLightDuration = 500;
 
 	Controller();
 	bool isOnlyOneActive(const TrafficLight &light) const;
