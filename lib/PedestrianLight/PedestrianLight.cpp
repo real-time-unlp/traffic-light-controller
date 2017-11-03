@@ -19,14 +19,17 @@ void PedestrianLight::taskFunction(void *args)
 {
 	while (true) {
 		xSemaphoreTake(mTouchedSem, portMAX_DELAY);
-		xSemaphoreTake(mSemaphore, portMAX_DELAY);
-		mLED.green();
-		vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
-		mLED.red();
-		vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
 
-		mController.senseAll();
-		release();
+		xSemaphoreTake(mSemaphore, portMAX_DELAY);
+		{
+			mLED.green();
+			vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
+			senseAndUpdatePriorities();
+			//TODO falta el amarillo.
+			mLED.red();
+			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
+			release();
+		}
 		xSemaphoreGive(mSemaphore);
 		taskYIELD();
 	}
@@ -62,12 +65,7 @@ void PedestrianLight::release()
 
 void PedestrianLight::sense()
 {
-	xSemaphoreTake(mMutex, portMAX_DELAY);
-	if (mTouched)
-		vTaskPrioritySet(mTask, HighPriority);
-	else
-		vTaskPrioritySet(mTask, LowPriority);
-	xSemaphoreGive(mMutex);
+	return;
 }
 
 bool PedestrianLight::active() const

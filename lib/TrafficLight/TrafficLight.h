@@ -12,6 +12,7 @@ public:
 	TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 			SemaphoreHandle_t semaphore, uint16_t greenDuration);
 
+	static constexpr BaseType_t MaxPriority = 4;
 	static constexpr BaseType_t HighPriority = 3;
 	static constexpr BaseType_t LowPriority = 2;
 	static constexpr BaseType_t SensingTaskPriority = 1;
@@ -41,6 +42,8 @@ protected:
 	{
 		reinterpret_cast<TrafficLight*>(instance)->taskFunction(nullptr);
 	};
+
+	void senseAndUpdatePriorities();
 
 	LED mLED;
 	Controller &mController;

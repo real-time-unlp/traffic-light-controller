@@ -19,10 +19,10 @@ TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 void TrafficLight::sense()
 {
 	mActive = (digitalRead(mSensorPin) == LOW);
-	if (mActive)
-		vTaskPrioritySet(mTask, HighPriority);
-	else
-		vTaskPrioritySet(mTask, LowPriority);
+	if (mTask != xTaskGetCurrentTaskHandle()) {
+		BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
+		vTaskPrioritySet(NULL, newPriority);
+	}
 }
 
 bool TrafficLight::active() const
@@ -41,7 +41,7 @@ void TrafficLight::taskFunction(void *args)
 				mLED.green();
 				vTaskDelay(greenTime / portTICK_PERIOD_MS);
 				greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
-				mController.senseAll();
+				senseAndUpdatePriorities();
 			} while(mController.isOnlyOneActive(*this));
 			mLED.yellow();
 			vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
@@ -51,4 +51,14 @@ void TrafficLight::taskFunction(void *args)
 		xSemaphoreGive(mSemaphore);
 		taskYIELD();
 	}
+}
+
+void TrafficLight::senseAndUpdatePriorities()
+{
+	vTaskPrioritySet(NULL, TrafficLight::MaxPriority);
+	xSemaphoreGive(mSemaphore);
+	mController.senseAll();
+	xSemaphoreTake(mSemaphore, portMAX_DELAY);
+	BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
+	vTaskPrioritySet(NULL, newPriority);
 }
