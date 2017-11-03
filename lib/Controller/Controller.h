@@ -24,5 +24,5 @@ public:
 private:
 	SemaphoreHandle_t mSemaphore;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
-	PedestrianLight mPedestrianLight;
+	//PedestrianLight mPedestrianLight;
 };

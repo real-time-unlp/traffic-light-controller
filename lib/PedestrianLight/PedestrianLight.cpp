@@ -61,9 +61,9 @@ void PedestrianLight::sense()
 {
 	xSemaphoreTake(mMutex, portMAX_DELAY);
 	if (mTouched)
-		vTaskPrioritySet(NULL, Controller::LightHighPriority);
+		vTaskPrioritySet(mTask, Controller::LightHighPriority);
 	else
-		vTaskPrioritySet(NULL, Controller::LightLowPriority);
+		vTaskPrioritySet(mTask, Controller::LightLowPriority);
 	xSemaphoreGive(mMutex);
 }
 
