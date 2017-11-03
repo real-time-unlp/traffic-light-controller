@@ -8,7 +8,7 @@ class PedestrianLight;
 
 class Controller {
 public:
-	static constexpr uint8_t TRAFFIC_LIGHTS = 3;
+	static constexpr uint8_t TRAFFIC_LIGHTS = 4;
 
 	static constexpr BaseType_t LightHighPriority = 3;
 	static constexpr BaseType_t LightLowPriority = 2;
@@ -24,5 +24,5 @@ public:
 private:
 	SemaphoreHandle_t mSemaphore;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
-	//PedestrianLight mPedestrianLight;
+	PedestrianLight mPedestrianLight;
 };
