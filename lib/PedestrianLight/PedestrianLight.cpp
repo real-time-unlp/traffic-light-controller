@@ -17,17 +17,19 @@ void PedestrianLight::taskFunction(void *args)
 		mLED.red();
 		xSemaphoreTake(mutex(), portMAX_DELAY);
 		{
-			mLED.green();
-			vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
-			senseAll();
-			for (uint8_t i = 0; i < 3; i++) {
-				mLED.off();
-				vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
-				mLED.yellow();
+			if (hasToRun()) {
+				mLED.green();
+				vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
+				senseAll();
+				for (uint8_t i = 0; i < 3; i++) {
+					mLED.off();
+					vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
+					mLED.yellow();
+				}
+				mLED.red();
+				vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
+				release();
 			}
-			mLED.red();
-			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
-			release();
 		}
 		xSemaphoreGive(lights[mNextIndex]->mutex());
 	}

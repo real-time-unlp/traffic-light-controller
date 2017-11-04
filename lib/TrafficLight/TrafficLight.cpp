@@ -45,16 +45,18 @@ void TrafficLight::taskFunction(void *args)
 	while(1) {
 		greenTime = mGreenDuration;
 		xSemaphoreTake(mutex(), portMAX_DELAY); {
-			do {
-				mLED.green();
-				vTaskDelay(greenTime / portTICK_PERIOD_MS);
-				greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
-				senseAll();
-			} while(isOnlyOneActive());
-			mLED.yellow();
-			vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
-			mLED.red();
-			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
+			if (hasToRun()) {
+				do {
+					mLED.green();
+					vTaskDelay(greenTime / portTICK_PERIOD_MS);
+					greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
+					senseAll();
+				} while(isOnlyOneActive());
+				mLED.yellow();
+				vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
+				mLED.red();
+				vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
+			}
 		}
 		xSemaphoreGive(lights[mNextIndex]->mutex());
 	}
