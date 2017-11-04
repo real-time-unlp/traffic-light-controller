@@ -11,8 +11,7 @@ public:
 
 	static constexpr uint8_t AMOUNT = 5;
 
-	static constexpr BaseType_t HighPriority = 3;
-	static constexpr BaseType_t LowPriority = 2;
+	static constexpr BaseType_t TrafficLightPriority = 2;
 	static constexpr BaseType_t SensingTaskPriority = 1;
 
 	static constexpr TickType_t GreenAvenueDuration = 1000;

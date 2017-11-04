@@ -13,7 +13,7 @@ TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t
 	mMutex(xSemaphoreCreateBinary())
 {
 	mActive = false;
-	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, LowPriority, &mTask);
+	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, TrafficLightPriority, &mTask);
 	pinMode(sensorPin, INPUT);
 	mLED.off();
 }
