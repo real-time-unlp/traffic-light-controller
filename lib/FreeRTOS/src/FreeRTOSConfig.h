@@ -90,7 +90,7 @@
 #define configUSE_TICK_HOOK                 0
 #define configCPU_CLOCK_HZ                  ( ( uint32_t ) F_CPU )			// This F_CPU variable set by the environment
 #define configMAX_PRIORITIES                ( ( UBaseType_t ) 3 )
-#define configMINIMAL_STACK_SIZE            ( ( UBaseType_t ) 64 )
+#define configMINIMAL_STACK_SIZE            ( ( UBaseType_t ) 128 )
 #define configIDLE_STACK_SIZE               ( ( UBaseType_t ) 64 )
 #define configMAX_TASK_NAME_LEN             ( 1 )
 #define configUSE_TRACE_FACILITY            0

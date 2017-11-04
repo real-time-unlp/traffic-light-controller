@@ -13,14 +13,13 @@ PedestrianLight::PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t index, ui
 
 void PedestrianLight::taskFunction(void *args)
 {
+	mLED.red();
 	while (true) {
-		mLED.red();
 		xSemaphoreTake(mutex(), portMAX_DELAY);
 		{
 			if (hasToRun()) {
 				mLED.green();
 				vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
-				senseAll();
 				for (uint8_t i = 0; i < 3; i++) {
 					mLED.off();
 					vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
@@ -28,6 +27,7 @@ void PedestrianLight::taskFunction(void *args)
 				}
 				mLED.red();
 				vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
+				senseAll();
 				release();
 			}
 		}

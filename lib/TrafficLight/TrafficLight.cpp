@@ -20,6 +20,7 @@ TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t
 
 void TrafficLight::senseAll()
 {
+	activesCount = 0;
 	for(int i = 0; i < AMOUNT; i++) {
 		TrafficLight &light = *lights[i];
 		light.sense();
@@ -49,7 +50,7 @@ void TrafficLight::taskFunction(void *args)
 				do {
 					mLED.green();
 					vTaskDelay(greenTime / portTICK_PERIOD_MS);
-					greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
+					//greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
 					senseAll();
 				} while(isOnlyOneActive());
 				mLED.yellow();

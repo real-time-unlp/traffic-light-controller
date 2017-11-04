@@ -36,11 +36,11 @@ protected:
 	};
 	
 	LED mLED;
-	const uint8_t mSensorPin;
-	const uint8_t mNextIndex;
-	const uint16_t mGreenDuration;
+	const volatile uint8_t mSensorPin;
+	const volatile uint8_t mNextIndex;
+	const volatile uint16_t mGreenDuration;
 	TaskHandle_t mTask;
-	const SemaphoreHandle_t mMutex;
+	const volatile SemaphoreHandle_t mMutex;
 	volatile bool mActive;
 
 private:

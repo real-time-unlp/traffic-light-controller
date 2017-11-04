@@ -14,16 +14,16 @@ LED::LED(uint8_t redPin, uint8_t yellowPin, uint8_t greenPin)
 
 void LED::red()
 {
-	digitalWrite(mRedPin, HIGH);
 	digitalWrite(mYellowPin, LOW);
 	digitalWrite(mGreenPin, LOW);
+	digitalWrite(mRedPin, HIGH);
 }
 
 void LED::yellow()
 {
 	digitalWrite(mRedPin, LOW);
-	digitalWrite(mYellowPin, HIGH);
 	digitalWrite(mGreenPin, LOW);
+	digitalWrite(mYellowPin, HIGH);
 }
 
 void LED::green()
