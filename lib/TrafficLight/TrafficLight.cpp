@@ -1,14 +1,16 @@
 #include <Arduino_FreeRTOS.h>
 #include <TrafficLight.h>
-#include <Controller.h>
 #include <Arduino.h>
 
-TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore, uint16_t greenDuration)
+volatile uint8_t TrafficLight::activesCount = 0;
+TrafficLight *TrafficLight::lights[TrafficLight::AMOUNT] = {};
+
+TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration)
 :	mLED(led),
-	mController(controller),
 	mSensorPin(sensorPin),
+	mNextIndex((index + 1) % AMOUNT),
 	mGreenDuration(greenDuration),
-	mSemaphore(semaphore)
+	mMutex(xSemaphoreCreateBinary())
 {
 	mActive = false;
 	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, LowPriority, &mTask);
@@ -16,13 +18,19 @@ TrafficLight::TrafficLight(LED &&led, Controller &controller, uint8_t sensorPin,
 	mLED.off();
 }
 
+void TrafficLight::senseAll()
+{
+	for(int i = 0; i < AMOUNT; i++) {
+		TrafficLight &light = *lights[i];
+		light.sense();
+		if (light.active())
+			++activesCount;
+	}
+}
+
 void TrafficLight::sense()
 {
 	mActive = (digitalRead(mSensorPin) == LOW);
-	if (mTask != xTaskGetCurrentTaskHandle()) {
-		BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
-		vTaskPrioritySet(NULL, newPriority);
-	}
 }
 
 bool TrafficLight::active() const
@@ -32,33 +40,37 @@ bool TrafficLight::active() const
 
 void TrafficLight::taskFunction(void *args)
 {
-	uint16_t greenTime;
+	TickType_t greenTime;
 	mLED.red();
 	while(1) {
 		greenTime = mGreenDuration;
-		xSemaphoreTake(mSemaphore, portMAX_DELAY); {
+		xSemaphoreTake(mutex(), portMAX_DELAY); {
 			do {
 				mLED.green();
 				vTaskDelay(greenTime / portTICK_PERIOD_MS);
 				greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
-				senseAndUpdatePriorities();
-				BaseType_t newPriority = (mActive) ? TrafficLight::HighPriority : TrafficLight::LowPriority;
-				vTaskPrioritySet(NULL, newPriority);
-			} while(mController.isOnlyOneActive(*this));
+				senseAll();
+			} while(isOnlyOneActive());
 			mLED.yellow();
 			vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
 			mLED.red();
 			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
 		}
-		xSemaphoreGive(mSemaphore);
-		taskYIELD();
+		xSemaphoreGive(lights[mNextIndex]->mutex());
 	}
 }
 
-void TrafficLight::senseAndUpdatePriorities()
+bool TrafficLight::hasToRun()
 {
-	vTaskPrioritySet(NULL, TrafficLight::MaxPriority);
-	xSemaphoreGive(mSemaphore);
-	mController.senseAll();
-	xSemaphoreTake(mSemaphore, portMAX_DELAY);
+	return active() || activesCount == 0;
+}
+
+bool TrafficLight::isOnlyOneActive()
+{
+	return active() && activesCount == 1;
+}
+
+SemaphoreHandle_t TrafficLight::mutex() const
+{
+	return mMutex;
 }
