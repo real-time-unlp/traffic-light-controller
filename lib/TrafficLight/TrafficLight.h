@@ -9,7 +9,7 @@ class TrafficLight {
 public:
 	TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration);
 
-	static constexpr uint8_t AMOUNT = 4;
+	static constexpr uint8_t AMOUNT = 5;
 
 	static constexpr BaseType_t TrafficLightPriority = 2;
 	static constexpr BaseType_t SensingTaskPriority = 1;

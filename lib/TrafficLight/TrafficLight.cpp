@@ -50,7 +50,7 @@ void TrafficLight::taskFunction(void *args)
 				do {
 					mLED.green();
 					vTaskDelay(greenTime / portTICK_PERIOD_MS);
-					//greenTime = (greenTime - 5 > 15) ? greenTime - 5 : 15;
+					//greenTime = (greenTime - 5000 > 15000) ? greenTime - 5000 : 15000;
 					senseAll();
 				} while(isOnlyOneActive());
 				mLED.yellow();
