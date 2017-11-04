@@ -3,8 +3,8 @@
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 
-PedestrianLight::PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration)
-: TrafficLight(static_cast<LED&&>(led), sensorPin, index, greenDuration),
+PedestrianLight::PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t sensorActiveHigh, uint8_t index, uint16_t greenDuration)
+: TrafficLight(static_cast<LED&&>(led), sensorPin, sensorActiveHigh, index, greenDuration),
   mIdleSemaphore(xSemaphoreCreateBinary()),
   mActiveSem(xSemaphoreCreateMutex())
 {
@@ -40,7 +40,7 @@ void PedestrianLight::sensingTaskFunction(void *args)
 	uint8_t count;
 	while (true) {
 		count = 3;
-		while (count && digitalRead(mSensorPin)) {
+		while (count && (digitalRead(mSensorPin) == mSensorActiveHigh)) {
 			vTaskDelay(50 / portTICK_PERIOD_MS);
 			count--;
 		}

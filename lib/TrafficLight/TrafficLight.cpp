@@ -5,7 +5,7 @@
 volatile uint8_t TrafficLight::activesCount = 0;
 TrafficLight *TrafficLight::lights[TrafficLight::AMOUNT] = {};
 
-TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration)
+TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t sensorActiveHigh, uint8_t index, uint16_t greenDuration)
 :	mLED(led),
 	mSensorPin(sensorPin),
 	mNextIndex((index + 1) % AMOUNT),
@@ -13,6 +13,7 @@ TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t
 	mMutex(xSemaphoreCreateBinary())
 {
 	mActive = false;
+	mSensorActiveHigh = sensorActiveHigh;
 	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, TrafficLightPriority, &mTask);
 	pinMode(sensorPin, INPUT);
 	mLED.off();
@@ -31,7 +32,7 @@ void TrafficLight::senseAll()
 
 void TrafficLight::sense()
 {
-	mActive = (digitalRead(mSensorPin) == LOW);
+	mActive = (digitalRead(mSensorPin) == mSensorActiveHigh);
 }
 
 bool TrafficLight::active() const

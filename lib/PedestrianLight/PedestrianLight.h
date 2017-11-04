@@ -7,7 +7,7 @@
 
 class PedestrianLight : public TrafficLight {
 public:
-	PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration);
+	PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t sensorActiveHigh, uint8_t index, uint16_t greenDuration);
 	
 protected:
 	virtual void sense();

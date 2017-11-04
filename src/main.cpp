@@ -5,13 +5,13 @@
 #include <semphr.h>
 
 TrafficLight traffics[TrafficLight::AMOUNT - 1] = {
-	TrafficLight(LED(2, 1, 0), A0, 0, TrafficLight::GreenAvenueDuration),
-	TrafficLight(LED(5, 4, 3), A1, 1, TrafficLight::GreenAvenueDuration),
-	TrafficLight(LED(8, 7, 6), A2, 2, TrafficLight::GreenAvenueDuration),
-	TrafficLight(LED(11, 10, 9), A3, 3, TrafficLight::GreenAvenueDuration)
+	TrafficLight(LED(2, 1, 0), A0, false, 0, TrafficLight::GreenAvenueDuration),
+	TrafficLight(LED(5, 4, 3), A1, false, 1, TrafficLight::GreenAvenueDuration),
+	TrafficLight(LED(8, 7, 6), A2, false, 2, TrafficLight::GreenAvenueDuration),
+	TrafficLight(LED(11, 10, 9), A3, false, 3, TrafficLight::GreenAvenueDuration)
 };
 
-PedestrianLight walker(LED(13, 12, 12), A4, 4, TrafficLight::GreenAvenueDuration);
+PedestrianLight walker(LED(13, 12, 12), A4, false, 4, TrafficLight::GreenAvenueDuration);
 
 void setup()
 {
