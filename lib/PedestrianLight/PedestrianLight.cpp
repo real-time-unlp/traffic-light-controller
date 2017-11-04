@@ -1,15 +1,12 @@
 #include <PedestrianLight.h>
-#include <Controller.h>
 #include <Arduino.h>
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>
 
-PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sensorPin, SemaphoreHandle_t semaphore, uint16_t greenDuration)
-: TrafficLight(static_cast<LED&&>(led), controller, sensorPin, semaphore, greenDuration),
+PedestrianLight::PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration)
+: TrafficLight(static_cast<LED&&>(led), sensorPin, index, greenDuration),
   mIdleSemaphore(xSemaphoreCreateCounting(1, 1)),
-  mMutex(xSemaphoreCreateCounting(1, 1)),
-  mTouchedSem(xSemaphoreCreateCounting(1, 0)),
-  mTouched(false)
+  mActiveSem(xSemaphoreCreateMutex())
 {
 	xTaskCreate(runSensingTask, "", configMINIMAL_STACK_SIZE, this, SensingTaskPriority, &mSensingTask);
 	vTaskPrioritySet(mTask, HighPriority);
@@ -18,24 +15,21 @@ PedestrianLight::PedestrianLight(LED &&led, Controller &controller, uint8_t sens
 void PedestrianLight::taskFunction(void *args)
 {
 	while (true) {
-		xSemaphoreTake(mTouchedSem, portMAX_DELAY);
-
-		xSemaphoreTake(mSemaphore, portMAX_DELAY);
+		xSemaphoreTake(mutex(), portMAX_DELAY);
 		{
 			mLED.green();
 			vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
-			senseAndUpdatePriorities();
-			vTaskPrioritySet(mTask, TrafficLight::HighPriority);
+			senseAll();
 			for (uint8_t i = 0; i < 3; i++) {
-				mLED.yellow();
+				mLED.off();
 				vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
+				mLED.yellow();
 			}
 			mLED.red();
 			vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
 			release();
 		}
-		xSemaphoreGive(mSemaphore);
-		taskYIELD();
+		xSemaphoreGive(lights[mNextIndex]->mutex());
 	}
 }
 
@@ -50,10 +44,9 @@ void PedestrianLight::sensingTaskFunction(void *args)
 		}
 
 		if (count == 0) {
-			xSemaphoreTake(mMutex, portMAX_DELAY);
-			mTouched = true;
-			xSemaphoreGive(mMutex);
-			xSemaphoreGive(mTouchedSem);
+			xSemaphoreTake(mActiveSem, portMAX_DELAY);
+			mActive = true;
+			xSemaphoreGive(mActiveSem);
 			xSemaphoreTake(mIdleSemaphore, portMAX_DELAY);
 		}
 	}
@@ -61,9 +54,9 @@ void PedestrianLight::sensingTaskFunction(void *args)
 
 void PedestrianLight::release()
 {
-	xSemaphoreTake(mMutex, portMAX_DELAY);
-	mTouched = false;
-	xSemaphoreGive(mMutex);
+	xSemaphoreTake(mActiveSem, portMAX_DELAY);
+	mActive = false;
+	xSemaphoreGive(mActiveSem);
 	xSemaphoreGive(mIdleSemaphore);
 }
 
@@ -72,11 +65,16 @@ void PedestrianLight::sense()
 	return;
 }
 
+bool PedestrianLight::hasToRun()
+{
+	return active();
+}
+
 bool PedestrianLight::active() const
 {
 	bool touched;
-	xSemaphoreTake(mMutex, portMAX_DELAY);
-	touched = mTouched;
-	xSemaphoreGive(mMutex);
+	xSemaphoreTake(mActiveSem, portMAX_DELAY);
+	touched = mActive;
+	xSemaphoreGive(mActiveSem);
 	return touched;
 }
