@@ -8,7 +8,7 @@ class PedestrianLight;
 
 class Controller {
 public:
-	static constexpr uint8_t TRAFFIC_LIGHTS = 4;
+	static constexpr uint8_t TRAFFIC_LIGHTS = 3;
 
 	Controller();
 	bool isOnlyOneActive(const TrafficLight &light) const;
@@ -16,5 +16,5 @@ public:
 private:
 	SemaphoreHandle_t mSemaphore;
 	TrafficLight mTrafficLights[TRAFFIC_LIGHTS];
-	PedestrianLight mPedestrianLight;
+	//PedestrianLight mPedestrianLight;
 };
