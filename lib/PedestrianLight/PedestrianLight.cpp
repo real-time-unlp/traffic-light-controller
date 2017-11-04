@@ -5,16 +5,16 @@
 
 PedestrianLight::PedestrianLight(LED &&led, uint8_t sensorPin, uint8_t index, uint16_t greenDuration)
 : TrafficLight(static_cast<LED&&>(led), sensorPin, index, greenDuration),
-  mIdleSemaphore(xSemaphoreCreateCounting(1, 1)),
+  mIdleSemaphore(xSemaphoreCreateBinary()),
   mActiveSem(xSemaphoreCreateMutex())
 {
 	xTaskCreate(runSensingTask, "", configMINIMAL_STACK_SIZE, this, SensingTaskPriority, &mSensingTask);
-	vTaskPrioritySet(mTask, HighPriority);
 }
 
 void PedestrianLight::taskFunction(void *args)
 {
 	while (true) {
+		mLED.red();
 		xSemaphoreTake(mutex(), portMAX_DELAY);
 		{
 			mLED.green();
