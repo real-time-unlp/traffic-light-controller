@@ -11,7 +11,7 @@ TrafficLight traffics[TrafficLight::AMOUNT - 1] = {
 	TrafficLight(LED(11, 10, 9), A3, false, 3, TrafficLight::GreenAvenueDuration)
 };
 
-PedestrianLight walker(LED(13, 12, 12), A4, false, 4, TrafficLight::GreenAvenueDuration);
+PedestrianLight walker(LED(13, 12, 12), A4, true, 4, TrafficLight::GreenAvenueDuration);
 
 void setup()
 {

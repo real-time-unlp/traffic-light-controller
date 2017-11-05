@@ -10,13 +10,12 @@ TrafficLight::TrafficLight(LED &&led, uint8_t sensorPin, uint8_t sensorActiveHig
 	mSensorPin(sensorPin),
 	mNextIndex((index + 1) % AMOUNT),
 	mGreenDuration(greenDuration),
-	mMutex(xSemaphoreCreateBinary())
+	mMutex(xSemaphoreCreateBinary()),
+	mActive(false),
+	mSensorActiveHigh(sensorActiveHigh)
 {
-	mActive = false;
-	mSensorActiveHigh = sensorActiveHigh;
 	xTaskCreate(runTask, "", configMINIMAL_STACK_SIZE, this, TrafficLightPriority, &mTask);
 	pinMode(sensorPin, INPUT);
-	mLED.off();
 }
 
 void TrafficLight::senseAll()

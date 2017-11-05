@@ -9,7 +9,7 @@ class TrafficLight {
 public:
 	TrafficLight(LED &&led, uint8_t sensorPin, uint8_t sensorActiveLow, uint8_t index, uint16_t greenDuration);
 
-	static constexpr uint8_t AMOUNT = 4;
+	static constexpr uint8_t AMOUNT = 5;
 
 	static constexpr BaseType_t TrafficLightPriority = 2;
 	static constexpr BaseType_t SensingTaskPriority = 1;
@@ -42,7 +42,7 @@ protected:
 	TaskHandle_t mTask;
 	const SemaphoreHandle_t mMutex;
 	volatile bool mActive;
-	volatile bool mSensorActiveHigh; /* Activo en alto = true, activo en bajo = false */
+	const bool mSensorActiveHigh; /* Activo en alto = true, activo en bajo = false */
 
 private:
 	bool isOnlyOneActive();
