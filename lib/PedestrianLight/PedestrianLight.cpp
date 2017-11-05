@@ -22,13 +22,14 @@ void PedestrianLight::taskFunction(void *args)
 				vTaskDelay(mGreenDuration / portTICK_PERIOD_MS);
 				for (uint8_t i = 0; i < 3; i++) {
 					mLED.off();
-					vTaskDelay(YellowLightDuration / portTICK_PERIOD_MS);
+					vTaskDelay(500 / portTICK_PERIOD_MS);
 					mLED.yellow();
+					vTaskDelay(500 / portTICK_PERIOD_MS);
 				}
 				mLED.red();
 				vTaskDelay(RedLightDuration / portTICK_PERIOD_MS);
-				senseAll();
 				release();
+				senseAll();
 			}
 		}
 		xSemaphoreGive(lights[mNextIndex]->mutex());
